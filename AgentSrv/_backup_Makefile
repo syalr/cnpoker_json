@@ -1,0 +1,62 @@
+CC = g++
+CFLAGS = -g -fPIC -D_FILELINE -Wno-deprecated 
+
+HOME = /mnt/Shared
+#HOME = /usr/local/moche_v20150728
+
+INC = 	-I $(HOME)/Common \
+		-I $(HOME)/Network \
+		-I $(HOME)/Utility \
+		-I $(HOME)/AgentSrv
+
+OBJS = 	Utility/Yond_mutex.o \
+		Utility/Yond_thread.o \
+		Utility/Yond_ini.o \
+		Utility/ObjKeyGenerator.o \
+		Network/Acceptor.o \
+		Network/Connector.o \
+		Network/Session.o \
+		Network/SessionList.o \
+		Network/SessionPool.o \
+		Network/SyncHandler.o \
+		Network/SocketOpt.o \
+		Network/NetworkObject.o \
+		Network/IOCPServer.o \
+		AgentSrv/ServerSession.o \
+		AgentSrv/TempServerSession.o \
+		AgentSrv/GameServerSession.o \
+		AgentSrv/TempUserSession.o \
+		AgentSrv/User.o \
+		AgentSrv/UserSession.o \
+		AgentSrv/UserManager.o \
+		AgentSrv/PacketHandler.o \
+		AgentSrv/Handler_FromGameServer.o \
+		AgentSrv/Handler_FromLoginServer.o \
+		AgentSrv/Handler_FromClient.o \
+		AgentSrv/AgentFactory.o \
+		AgentSrv/AgentServer.o \
+		AgentSrv/AgentMain.o
+
+BINDIR = bin
+
+all: checkbin $(BINDIR)/AgentServer 
+
+$(BINDIR)/AgentServer: $(OBJS)
+	$(CC) -g $^ -o $@ -pthread
+
+.SUFFIXES: .c .o .cpp
+.cpp.o:
+	$(CC) $(CFLAGS) $(INC) -o $@ -c $<
+
+.PHONY: checkbin
+checkbin:
+	test -d "${BINDIR}" || mkdir $(BINDIR)
+
+.PHONY:	clean
+clean:
+	rm -f Common/*.o
+	rm -f Network/*.o
+	rm -f Utility/*.o
+	rm -f AgentSrv/*.o
+	rm -f $(BINDIR)/AgentServer
+	
