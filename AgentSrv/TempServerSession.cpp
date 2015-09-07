@@ -28,7 +28,7 @@ void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 	printf("Enter TempServerSession::OnRecv.\n");
 	
 	printf("Ignore Varify\n");
-	
+#if 0	
 	MSG_SERVER_TYPE * pRecvMsg = (MSG_SERVER_TYPE *)pMsg;
 	if ( pRecvMsg->m_byServerType == LOGIN_SERVER ) {
 		printf("1.Turn to Login_SERVER\n");
@@ -65,6 +65,7 @@ void TempServerSession::OnRecv(BYTE *pMsg, WORD wSize)
 	
 	printf("\n>>>> Free TempServerSesion <<<<\n");	
 	AgentFactory::Instance()->FreeTempServerSession(this);
+#endif	
 }
 
 void TempServerSession::OnConnect( BOOL bSuccess, DWORD dwNetworkIndex )

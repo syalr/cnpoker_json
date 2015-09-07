@@ -8,67 +8,45 @@
 
 #pragma pack(push, 1)
 
-// 登出 应答
-struct MSG_AG_LOGOUT_ANC : public MSG_BASE_FORWARD
+
+struct MSG_START_GAME_REQ : public MSG_BASE_FORWARD
 {
-	DWORD m_uiRootID;
-	
-	MSG_AG_LOGOUT_ANC() 
+	MSG_START_GAME_REQ() 
 	{
-		memset( this, 0, sizeof(MSG_AG_LOGOUT_ANC) );
+		memset( this, 0, sizeof(MSG_START_GAME_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Logout_ANC; // 
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
+		m_byCategory = Games_Protocol;
+		m_byProtocol = StartGame_REQ;
 	}
 };
 
-struct MSG_AG_START_GAME_REQ : public MSG_BASE_FORWARD
+struct MSG_START_GAME_ANC : public MSG_BASE_FORWARD
 {
-	MSG_AG_START_GAME_REQ() 
+	MSG_START_GAME_ANC() 
 	{
-		memset( this, 0, sizeof(MSG_AG_START_GAME_REQ) );
+		memset( this, 0, sizeof(MSG_START_GAME_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_StartGame_REQ; // 2000
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
+		m_byCategory = Games_Protocol;
+		m_byProtocol = StartGame_ANC;
 	}
 };
 
-struct MSG_AG_START_GAME_ANC : public MSG_BASE_FORWARD
-{
-	MSG_AG_START_GAME_ANC() 
-	{
-		memset( this, 0, sizeof(MSG_AG_START_GAME_ANC) );
-		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_StartGame_ANC; // 2001
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
-	}
-};
-
-struct MSG_AG_START_GAME_NAK : public MSG_BASE_FORWARD
+struct MSG_START_GAME_NAK : public MSG_BASE_FORWARD
 {
 	DWORD 	m_dwErrorCode;
 	
-	MSG_AG_START_GAME_NAK() 
+	MSG_START_GAME_NAK() 
 	{
-		memset( this, 0, sizeof(MSG_AG_START_GAME_NAK) );
+		memset( this, 0, sizeof(MSG_START_GAME_NAK) );
 		
-		m_byCategory = AG_Connect; // 10
-		//m_byProtocol = AG_StartGame_NAK; // ???
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
+		m_byCategory = Games_Protocol;
+		m_byProtocol = StartGame_NAK;
 	}
 };
 
+
+/*************************************/
+#if 0
 struct MSG_AG_JOINROOM_REQ : public MSG_BASE_FORWARD
 {
 	unsigned int m_uiRoomNumber;
@@ -77,10 +55,10 @@ struct MSG_AG_JOINROOM_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_JOINROOM_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_JoinRoom_REQ; // 2002
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_JoinRoom_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -94,10 +72,10 @@ struct MSG_AG_JOINROOM_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_JOINROOM_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_JoinRoom_ANC; // 2003
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_JoinRoom_ANC;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -111,10 +89,10 @@ struct MSG_AG_JOINTABLE_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_JOINTABLE_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_JoinTable_REQ; // 2004
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_JoinTable_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -127,10 +105,10 @@ struct MSG_AG_JOINTABLE_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_JOINTABLE_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_JoinTable_ANC; // 2005
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_JoinTable_ANC;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -144,10 +122,10 @@ struct MSG_AG_INITCARDS_BRD : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_INITCARDS_BRD) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_InitCards_BRD; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_InitCards_BRD;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -158,8 +136,8 @@ struct MSG_AG_INITCARDS_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_INITCARDS_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		//m_byProtocol = AG_InitCards_ANC; // ???
+		m_byCategory = AG_Connect;
+		//m_byProtocol = AG_InitCards_ANC;
 		
 		m_dwParameter = 0; // dwUserID
 		m_byParameter = 0;
@@ -175,10 +153,10 @@ struct MSG_AG_CALLLANDLOARD_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_CALLLANDLOARD_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_CallLandlord_REQ; // 
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_CallLandlord_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -190,10 +168,10 @@ struct MSG_AG_CALLLANDLOARD_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_CALLLANDLOARD_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_CallLandlord_ANC; // 
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_CallLandlord_ANC;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -205,10 +183,10 @@ struct MSG_AG_GRABLANDLOARD_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_GRABLANDLOARD_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_GrabLandlord_REQ; // 
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_GrabLandlord_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -222,10 +200,10 @@ struct MSG_AG_GRABLANDLOARD_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_GRABLANDLOARD_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_GrabLandlord_ANC; // 
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_GrabLandlord_ANC;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -237,10 +215,10 @@ struct MSG_AG_GRABLANDLOARD_BRD : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_GRABLANDLOARD_BRD) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_GrabLandlord_BRD; // 
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_GrabLandlord_BRD;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -252,10 +230,10 @@ struct MSG_AG_SHOWCARDS_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_SHOWCARDS_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_ShowCards_REQ; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_ShowCards_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -263,16 +241,16 @@ struct MSG_AG_SHOWCARDS_REQ : public MSG_BASE_FORWARD
 struct MSG_AG_SHOWCARDS_ANC : public MSG_BASE_FORWARD
 {
 	DWORD m_dwUserID;
-	BYTE  m_byCards[CNPOKER_CARD_LEN_2]; // 20
+	BYTE  m_byCards[CNPOKER_CARD_LEN_2];
 	
 	MSG_AG_SHOWCARDS_ANC() 
 	{
 		memset( this, 0, sizeof(MSG_AG_SHOWCARDS_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_ShowCards_ANC; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_ShowCards_ANC;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -287,10 +265,10 @@ struct MSG_AG_DISCARDS_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_DISCARDS_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Discards_REQ; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_Discards_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -305,10 +283,10 @@ struct MSG_AG_DISCARDS_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_DISCARDS_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Discards_ANC; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_Discards_ANC;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -322,10 +300,10 @@ struct MSG_AG_DISCARDS_INVALID : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_DISCARDS_INVALID) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Discards_INVALID; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_Discards_INVALID;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -337,10 +315,10 @@ struct MSG_AG_PASS_REQ : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_PASS_REQ) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Pass_REQ; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_Pass_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -355,10 +333,10 @@ struct MSG_AG_PASS_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_PASS_ANC) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Pass_ANC; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_Pass_ANC;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
@@ -370,15 +348,17 @@ struct MSG_AG_WINPLAYER_BRD : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_AG_WINPLAYER_BRD) );
 		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Discards_REQ; // ???
+		m_byCategory = AG_Connect;
+		m_byProtocol = AG_Discards_REQ;
 		
-		m_dwParameter = 0; // dwUserID
+		m_dwParameter = 0;
 		m_byParameter = 0;
 	}
 };
+#endif
+/*************************************/
 
 
 #pragma pack(pop)
 
-#endif // _PACKAGESTRUCT_GA_H_INCLUDED_
+#endif // _PACKAGESTRUCT_GAME_H_INCLUDED_

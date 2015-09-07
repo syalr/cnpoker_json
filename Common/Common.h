@@ -61,20 +61,16 @@ typedef unsigned long	ULONG;
 #include "Cnpoker.h"
 
 #include "Protocol.h"
+#include "Protocol_Login.h"
+#include "Protocol_Connect.h"
+#include "Protocol_Game.h"
+
 #include "CommStruct.h"
+
 #include "PackageStruct.h"
-#include "PackageStruct_AG.h"
-#include "PackageStruct_AL.h"
-#include "PackageStruct_CA.h"
+#include "PackageStruct_Login.h"
+#include "PackageStruct_Connect.h"
+#include "PackageStruct_Game.h"
 
-#include "PackageStruct_GD.h"
-#include "PackageStruct_LD.h"
-
-#include "Protocol_AG.h"
-#include "Protocol_AL.h"
-#include "Protocol_CA.h"
-#include "Protocol_CL.h"
-#include "Protocol_GD.h"
-#include "Protocol_LD.h"
 
 #endif // _COMMON_H_INCLUDED_

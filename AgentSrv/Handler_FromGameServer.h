@@ -14,23 +14,23 @@ public:
 	Handler_FromGameServer(void);
 	~Handler_FromGameServer(void);
 
-	HANDLER_DECL( AG_Login_ANC);
+	HANDLER_DECL( Login_ANC);
 	
-	HANDLER_DECL( AG_Logout_ANC);
+#if 0		
+	HANDLER_DECL( Logout_ANC);
 	
-	HANDLER_DECL( AG_StartGame_ANC );
-#if 0	
-	HANDLER_DECL( AG_Heartbeat_SYN );
+	HANDLER_DECL( StartGame_ANC );
+
+	HANDLER_DECL( Heartbeat_SYN );
 	
-	HANDLER_DECL( AG_Relogin_SYN );
-	
-	
-	HANDLER_DECL( AG_StartGame_REQ );
-	HANDLER_DECL( AG_JoinRoom_REQ );
-	HANDLER_DECL( AG_JoinTable_REQ );
-	HANDLER_DECL( AG_ShowCards_REQ );
-	HANDLER_DECL( AG_Discards_REQ );
-	HANDLER_DECL( AG_EndGame_REQ );
+	HANDLER_DECL( Relogin_SYN );
+	//
+	HANDLER_DECL( StartGame_REQ );
+	HANDLER_DECL( JoinRoom_REQ );
+	HANDLER_DECL( JoinTable_REQ );
+	HANDLER_DECL( ShowCards_REQ );
+	HANDLER_DECL( Discards_REQ );
+	HANDLER_DECL( EndGame_REQ );
 #endif
 };
 

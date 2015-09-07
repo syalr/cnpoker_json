@@ -7,22 +7,22 @@
 
 #pragma pack(push, 1)
 
-// Login req
+// Login Req
 struct MSG_LOGIN_REQ : public MSG_BASE_FORWARD
 {
 	DWORD m_dwUserID;
 	BYTE m_UserKey[CODE_KEY_LEN+1];
 	
-	MSG_AG_LOGIN_REQ() 
+	MSG_LOGIN_REQ() 
 	{
-		memset( this, 0, sizeof(MSG_AG_LOGIN_REQ) );
+		memset( this, 0, sizeof(MSG_LOGIN_REQ) );
 		
-		m_byCategory = Login_Protocol; 	// 10
-		m_byProtocol = Login_REQ; 		// 
+		m_byCategory = Login_Protocol;
+		m_byProtocol = Login_REQ;
 	}
 };
 
-// Login anc
+// Login Anc
 struct MSG_LOGIN_ANC : public MSG_BASE_FORWARD
 {
 	PlayerInfo m_playerInfo;
@@ -30,25 +30,23 @@ struct MSG_LOGIN_ANC : public MSG_BASE_FORWARD
 	{
 		memset( this, 0, sizeof(MSG_LOGIN_ANC) );
 		
-		m_byCategory = Login_Protocol; 	// 10
-		m_byProtocol = Login_ANC; 		//
+		m_byCategory = Login_Protocol;
+		m_byProtocol = Login_ANC;
 	}
 };
 
-// Login nak
-struct MSG_LOGOUT_NAK: public MSG_BASE_FORWARD
+// Login Nak
+struct MSG_LOGIN_NAK: public MSG_BASE_FORWARD
 {
 	WORD errorno;
-	MSG_AG_LOGOUT_REQ() 
+	MSG_LOGIN_NAK() 
 	{
-		memset( this, 0, sizeof(MSG_AG_LOGOUT_REQ) );
+		memset( this, 0, sizeof(MSG_LOGIN_NAK) );
 		
-		m_byCategory = Login_Protocol; 	// 10
-		m_byProtocol = Login_NAK; 		// 
+		m_byCategory = Login_Protocol;
+		m_byProtocol = Login_NAK;
 	}
 };
-
-
 
 #pragma pack(pop)
 

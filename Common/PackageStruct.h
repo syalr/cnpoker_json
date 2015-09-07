@@ -9,7 +9,7 @@ struct MSG_BASE
 {
 	MSG_BASE()
 	{
-		memset(this, 0, sizeof(MSG_BASE));
+		memset( this, 0, sizeof(MSG_BASE) );
 	}
 	
 	void Init(WORD wCMDType, WORD wCMDID)
@@ -31,16 +31,16 @@ struct MSG_SERVER_TYPE : public MSG_BASE
 
 struct MSG_BASE_FORWARD : public MSG_BASE
 {
-	DWORD	m_dwMsgNumber;
-	WORD	m_byUserPort;
-	BYTE	m_byAgentPort;
-	BYTE	m_byGamePort;
+	DWORD m_dwMsgNumber;
+	WORD m_wUserPort;
+	WORD m_wAgentPort;
+	WORD m_wReserverPort;
+	WORD m_wGamePort;
+	
+	
 	MSG_BASE_FORWARD()
 	{
-		DWORD	m_dwMsgNumber;
-		WORD	m_byUserPort;
-		BYTE	m_byAgentPort;
-		BYTE	m_byGamePort;
+		memset(this, 0, sizeof(MSG_BASE_FORWARD) );
 	}
 };
 

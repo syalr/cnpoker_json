@@ -13,26 +13,10 @@ Handler_FromClient::~Handler_FromClient()
 	
 }
 
-HANDLER_IMPL( CA_Heartbeat_SYN )
+HANDLER_IMPL( Login_REQ)
 {
-	printf("CA_Heartbeat_SYN\n");
-}
-
-HANDLER_IMPL( CA_PreLogin_REQ )
-{
-	printf("Step1: <1> CA_PreLogin_REQ\n");
-	MSG_CA_PRELOGIN_REQ *pRecvMsg = (MSG_CA_PRELOGIN_REQ *)pMsg;
-	
-	MSG_AL_PRELOGIN_REQ msg2;
-	msg2.m_dwParameter = pRecvMsg->m_dwParameter; // dwUserKey;
-	memcpy(msg2.m_byUsername, pRecvMsg->m_byUsername, sizeof(pRecvMsg->m_byUsername) ); // 账户
-	memcpy(msg2.m_byPassword, pRecvMsg->m_byPassword, sizeof(pRecvMsg->m_byPassword) ); // 密码
-	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
-}
-
-HANDLER_IMPL( CA_Login_REQ)
-{
-	printf("Step2: <1> CA_Login_REQ\n");
+	printf(">>> Login_REQ\n");
+#if 0	
 	MSG_CA_LOGIN_REQ * pRecvMsg = (MSG_CA_LOGIN_REQ *)pMsg;
 	unsigned int uiRootID = pRecvMsg->m_uiRootID;
 	printf("uiRootID = %d\n", uiRootID);
@@ -42,8 +26,10 @@ HANDLER_IMPL( CA_Login_REQ)
 	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
 	memcpy(msg2.m_byUserKey, pRecvMsg->m_byUserKey, sizeof(pRecvMsg->m_byUserKey) );
 	g_AgentServer->SendToLoginServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif
 }
 
+#if 0
 HANDLER_IMPL( CA_ReLogin_REQ )
 {
 	printf("CA_Relogin_REQ\n");
@@ -126,3 +112,4 @@ HANDLER_IMPL( CA_InitCards_BRD )
 	printf("CA_InitCards_BRD Function\n");
 }
 
+#endif

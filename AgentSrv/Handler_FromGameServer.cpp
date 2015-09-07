@@ -13,9 +13,11 @@ Handler_FromGameServer::~Handler_FromGameServer()
 	
 }
 
-HANDLER_IMPL( AG_Login_ANC )
+HANDLER_IMPL( Login_ANC )
 {
-	printf("Step2: <5> AG_Login_ANC\n");
+	printf(">>> AG_Login_ANC\n");
+
+#if 0	
 	MSG_AG_LOGIN_ANC * pRecvMsg = (MSG_AG_LOGIN_ANC *)pMsg;
 	
 	// 查找用户
@@ -31,9 +33,11 @@ HANDLER_IMPL( AG_Login_ANC )
 	msg2.m_playerInfo = pRecvMsg->m_playerInfo;
 		
 	pUser->SendPacket( (BYTE *)&msg2, wSize );
+#endif		
 }
 
-HANDLER_IMPL( AG_Logout_ANC )
+#if 0
+HANDLER_IMPL( Logout_ANC )
 {
 	printf("Logout: <5> AG_Logout_ANC\n");
 	MSG_AG_LOGOUT_ANC * pRecvMsg = (MSG_AG_LOGOUT_ANC *)pMsg;
@@ -52,10 +56,12 @@ HANDLER_IMPL( AG_Logout_ANC )
 	// 返回应答消息给 Client
 	MSG_CA_LOGOUT_ANC msg2;
 	msg2.m_dwParameter = dwUserID;
-	pUser->SendPacket( (BYTE *)&msg2, wSize );	
+	pUser->SendPacket( (BYTE *)&msg2, wSize );
+
 }
 
-HANDLER_IMPL( AG_StartGame_ANC )
+
+HANDLER_IMPL( StartGame_ANC )
 {
 	printf("Recv GameServer Msg --> AG_StartGame_ANC Success\n");
 	MSG_AG_START_GAME_ANC * pRecvMsg = (MSG_AG_START_GAME_ANC *)pMsg;
@@ -70,53 +76,52 @@ HANDLER_IMPL( AG_StartGame_ANC )
 	pUser->SendPacket( (BYTE *)pMsg, wSize );
 }
 
-#if 0
-HANDLER_IMPL( AG_Heartbeat_SYN )
+HANDLER_IMPL( Heartbeat_SYN )
 {
 	
 }
 
-HANDLER_IMPL( AG_Logout_REQ)
+HANDLER_IMPL( Logout_REQ)
 {
 
 }
 
-HANDLER_IMPL( AG_Relogin_SYN )
-{
-	
-}
-
-HANDLER_IMPL( AG_Logout_REQ)
+HANDLER_IMPL( Relogin_SYN )
 {
 	
 }
 
-HANDLER_IMPL( AG_StartGame_REQ )
+HANDLER_IMPL( Logout_REQ)
 {
 	
 }
 
-HANDLER_IMPL( AG_JoinRoom_REQ )
+HANDLER_IMPL( StartGame_REQ )
 {
 	
 }
 
-HANDLER_IMPL( AG_JoinTable_REQ )
+HANDLER_IMPL( JoinRoom_REQ )
 {
 	
 }
 
-HANDLER_IMPL( AG_ShowCards_REQ )
+HANDLER_IMPL( JoinTable_REQ )
 {
 	
 }
 
-HANDLER_IMPL( AG_Discards_REQ )
+HANDLER_IMPL( ShowCards_REQ )
 {
 	
 }
 
-HANDLER_IMPL( AG_EndGame_REQ )
+HANDLER_IMPL( Discards_REQ )
+{
+	
+}
+
+HANDLER_IMPL( EndGame_REQ )
 {
 		
 }

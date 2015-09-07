@@ -5,7 +5,7 @@
 
 enum eLOGIN_PROTOCOL 
 {
-	// 预登陆
+	// 登陆
 	Login_REQ			= 300,
 	Login_ANC,
 	Login_NAK,

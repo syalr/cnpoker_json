@@ -1,34 +1,33 @@
 CC = g++
 CFLAGS = -g -fPIC -D_FILELINE -Wno-deprecated 
 #HOME = /mnt/Shared/moche 
-HOME = /mnt/share/cnpoker_V20150816
+HOME = /mnt/share/cnpoker_json
 
-MYSQLINC = /usr/local/mysql/include
-MYSQLLIB = -L /usr/lib64/mysql -lmysqlclient -lz -lm
+MYSQLINC = /usr/include/mysql
+MYSQLLIB = -L /usr/lib64/mysql -l mysqlclient -lz -lm
 
-INC = -I $(HOME)/Common  \
+INC = -I $(HOME)/Utility \
+	  -I $(HOME)/Common  \
 	  -I $(HOME)/Network \
-	  -I $(HOME)/Utility \
 	  -I $(HOME)/Public \
 	  -I $(HOME)/AgentSrv \
 	  -I $(HOME)/HyMysql \
 	  -I $(HOME)/DBSrv \
 	  -I $(MYSQLINC) 
 
-PublicObjs 		= Public/Yond_drng.o \
-				  Public/InfoParser.o \
-				  Public/AgentInfo.o \
-				  Public/Poker.o \
-				  Public/Yond_md5.o \
-				  Public/Yond_json.o \
+PublicObjs 		= Public/InfoParser.o \
 				  Public/JsonParser.o \
-				  Public/MsgProcess.o
+				  Public/MsgProcess.o \
+				  Public/Poker.o \
+				  Public/Yond_drng.o \
+				  Public/Yond_json.o \
+				  Public/Yond_md5.o 
 	  
 UtilityObjs 	= Utility/Yond_mutex.o \
 				  Utility/Yond_ini.o \
-				  Utility/ObjKeyGenerator.o \
 				  Utility/Yond_thread.o \
-				  Utility/Yond_thread_pool.o
+				  Utility/Yond_thread_pool.o \
+				  Utility/ObjKeyGenerator.o
 
 NetworkObjs 	= Network/Acceptor.o \
 				  Network/Connector.o \
@@ -59,38 +58,38 @@ AgentServerObjs = AgentSrv/AgentMain.o \
 				  AgentSrv/RootID.o \
 				  AgentSrv/RootidManager.o
 		  
-GameServerObjs 	= GameSrv/AgentServerSession.o \
-				  GameSrv/DBServerSession.o \
-				  GameSrv/GameFactory.o \
-				  GameSrv/GameMain.o \
-				  GameSrv/GameServer.o \
-				  GameSrv/GameUser.o \
-				  GameSrv/GameUserManager.o \
-				  GameSrv/Handler_FromAgentServer.o \
-				  GameSrv/Handler_FromDBServer.o \
-				  GameSrv/PacketHandler.o \
-				  GameSrv/ServerSession.o
+#GameServerObjs 	= GameSrv/AgentServerSession.o \
+#				  GameSrv/DBServerSession.o \
+#				  GameSrv/GameFactory.o \
+#				  GameSrv/GameMain.o \
+#				  GameSrv/GameServer.o \
+#				  GameSrv/GameUser.o \
+#				  GameSrv/GameUserManager.o \
+#				  GameSrv/Handler_FromAgentServer.o \
+#				  GameSrv/Handler_FromDBServer.o \
+#				  GameSrv/PacketHandler.o \
+#				  GameSrv/ServerSession.o
 
-DBServerObjs 	= HyMysql/HyDatabase.o \
-				  HyMysql/IDBCInterface.o \
-				  HyMysql/IMysql.o \
-				  HyMysql/QueryExecuteProcessor.o \
-				  HyMysql/QueryResult.o \
-				  DBSrv/DBConnectDir.o \
-				  DBSrv/DBFactory.o \
-				  DBSrv/DBMain.o \
-				  DBSrv/DBServer.o \
-				  DBSrv/DBUser.o \
-				  DBSrv/DBUserManager.o \
-				  DBSrv/GameServerQuery.o \
-				  DBSrv/GameServerSession.o \
-				  DBSrv/Handler_FromGameServer.o \
-				  DBSrv/Handler_FromLoginServer.o \
-				  DBSrv/LoginServerQuery.o \
-				  DBSrv/LoginServerSession.o \
-				  DBSrv/PacketHandler.o \
-				  DBSrv/ServerSession.o \
-				  DBSrv/TempServerSession.o
+#DBServerObjs 	= HyMysql/HyDatabase.o \
+#				  HyMysql/IDBCInterface.o \
+#				  HyMysql/IMysql.o \
+#				  HyMysql/QueryExecuteProcessor.o \
+#				  HyMysql/QueryResult.o \
+#				  DBSrv/DBConnectDir.o \
+#				  DBSrv/DBFactory.o \
+#				  DBSrv/DBMain.o \
+#				  DBSrv/DBServer.o \
+#				  DBSrv/DBUser.o \
+#				  DBSrv/DBUserManager.o \
+#				  DBSrv/GameServerQuery.o \
+#				  DBSrv/GameServerSession.o \
+#				  DBSrv/Handler_FromGameServer.o \
+#				  DBSrv/Handler_FromLoginServer.o \
+#				  DBSrv/LoginServerQuery.o \
+#				  DBSrv/LoginServerSession.o \
+#				  DBSrv/PacketHandler.o \
+#				  DBSrv/ServerSession.o \
+#				  DBSrv/TempServerSession.o
 
 #LoginServerObjs = LoginSrv/ServerSession.o \
 #				  LoginSrv/TempServerSession.o \
@@ -108,15 +107,16 @@ DBServerObjs 	= HyMysql/HyDatabase.o \
 				  
 BINDIR = bin
 
-all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer 
+all: checkbin $(BINDIR)/AgentServer 
+#$(BINDIR)/GameServer 
 #$(BINDIR)/DBServer 
 #$(BINDIR)/LoginServer
 
 $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServerObjs)
 	$(CC) -g $^ -o $@ -pthread
 
-$(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerObjs)
-	$(CC) -g $^ -o $@ -pthread
+#$(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerObjs)
+#	$(CC) -g $^ -o $@ -pthread
 
 #$(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
 #	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread

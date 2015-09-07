@@ -30,35 +30,29 @@ BOOL PacketHandler::RegisterHandler()
 }	
 
 void PacketHandler::Register_CA()
-{
-	AddHandler_CA(CA_Connect, CA_Heartbeat_SYN, Handler_FromClient::OnCA_Heartbeat_SYN);
+{	
+	AddHandler_CA( Login_Protocol, Login_REQ, Handler_FromClient::OnLogin_REQ );
 	
-	AddHandler_CA(CA_Client, CA_PreLogin_REQ, Handler_FromClient::OnCA_PreLogin_REQ);
-	
-	AddHandler_CA(CA_Client, CA_Login_REQ, Handler_FromClient::OnCA_Login_REQ);
-	
-	AddHandler_CA(CA_Client, CA_ReLogin_REQ, Handler_FromClient::OnCA_ReLogin_REQ);
-	
-	AddHandler_CA(CA_Client, CA_Logout_REQ, Handler_FromClient::OnCA_Logout_REQ);
+	//AddHandler_CA( Login_Protocol, CA_ReLogin_REQ, Handler_FromClient::OnCA_ReLogin_REQ);	
+	//AddHandler_CA( Login_Protocol, CA_Logout_REQ, Handler_FromClient::OnCA_Logout_REQ);
 
 	// sylar 2015-08-16
-	AddHandler_CA(CA_Game, CA_StartGame_REQ, Handler_FromClient::OnCA_StartGame_REQ);	
-	AddHandler_CA(CA_Game, CA_JoinRoom_REQ, Handler_FromClient::OnCA_JoinRoom_REQ);
-	AddHandler_CA(CA_Game, CA_JoinTable_REQ, Handler_FromClient::OnCA_JoinTable_REQ);
-	AddHandler_CA(CA_Game, CA_ShowCards_REQ, Handler_FromClient::OnCA_ShowCards_REQ);
-	AddHandler_CA(CA_Game, CA_Discards_BRD, Handler_FromClient::OnCA_Discards_BRD);
-	AddHandler_CA(CA_Game, CA_EndGame_SYN, Handler_FromClient::OnCA_EndGame_SYN);
-	
-	AddHandler_CA(CA_Game, CA_InitCards_BRD, Handler_FromClient::OnCA_InitCards_BRD);
+	//AddHandler_CA( Games_Protocol, StartGame_REQ, Handler_FromClient::OnStartGame_REQ );	
+	//AddHandler_CA( Games_Protocol, JoinRoom_REQ, Handler_FromClient::OnJoinRoom_REQ );
+	//AddHandler_CA( Games_Protocol, JoinTable_REQ, Handler_FromClient::OnJoinTable_REQ );
+	//AddHandler_CA( Games_Protocol, ShowCards_REQ, Handler_FromClient::OnShowCards_REQ );
+	//AddHandler_CA( Games_Protocol, Discards_BRD, Handler_FromClient::OnDiscards_BRD );
+	//AddHandler_CA( Games_Protocol, EndGame_SYN, Handler_FromClient::OnEndGame_SYN );	
+	//AddHandler_CA( Games_Protocol, InitCards_BRD, Handler_FromClient::OnInitCards_BRD );
 }
 
 void PacketHandler::Register_AG()
 {
-	AddHandler_AG(AG_Connect, AG_Login_ANC, Handler_FromGameServer::OnAG_Login_ANC);
-	AddHandler_AG(AG_Connect, AG_Logout_ANC, Handler_FromGameServer::OnAG_Logout_ANC);
+	AddHandler_AG( Login_Protocol, Login_ANC, Handler_FromGameServer::OnLogin_ANC );
+	//AddHandler_AG( AG_Connect, AG_Logout_ANC, Handler_FromGameServer::OnAG_Logout_ANC );
 	
 	
-	AddHandler_AG(AG_Connect, AG_StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
+	//AddHandler_AG( AG_Connect, AG_StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
 	
 #if 0
 	AddHandler_AG(AG_Connect_Protocol, AG_Heratbeat_ANC, Handler_FromGameServer::OnAG_Heratbeat_ANC);
@@ -67,23 +61,23 @@ void PacketHandler::Register_AG()
 	AddHandler_AG(AG_Client_Protocol, AG_Relogin_ANC, Handler_FromGameServer::OnAG_Relogin_ANC);
 	
 	
-	AddHandler_AG(AG_Game_Protocol, AG_StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
-	AddHandler_AG(AG_Game_Protocol, AG_JoinRoom_ANC, Handler_FromGameServer::OnAG_JoinRoom_ANC);
-	AddHandler_AG(AG_Game_Protocol, AG_JoinTable_ANC, Handler_FromGameServer::OnAG_JoinTable_ANC);
-	AddHandler_AG(AG_Game_Protocol, AG_ContendWithBanker_ANC, Handler_FromGameServer::OnAG_ContendWithBanker_ANC);
-	AddHandler_AG(AG_Game_Protocol, AG_ShowCards_ANC, Handler_FromGameServer::OnAG_ShowCards_ANC);
-	AddHandler_AG(AG_Game_Protocol, AG_Discards_ANC, Handler_FromGameServer::OnAG_Discards_ANC);
-	AddHandler_AG(AG_Game_Protocol, AG_EndGame_ANC, Handler_FromGameServer::OnAG_EndGame_ANC);
+	AddHandler_AG( Games_Protocol, StartGame_ANC, Handler_FromGameServer::OnAG_StartGame_ANC);
+	AddHandler_AG( Games_Protocol, JoinRoom_ANC, Handler_FromGameServer::OnAG_JoinRoom_ANC);
+	AddHandler_AG( Games_Protocol, JoinTable_ANC, Handler_FromGameServer::OnAG_JoinTable_ANC);
+	AddHandler_AG( Games_Protocol, ContendWithBanker_ANC, Handler_FromGameServer::OnAG_ContendWithBanker_ANC);
+	AddHandler_AG( Games_Protocol, ShowCards_ANC, Handler_FromGameServer::OnAG_ShowCards_ANC);
+	AddHandler_AG( Games_Protocol, Discards_ANC, Handler_FromGameServer::OnAG_Discards_ANC);
+	AddHandler_AG( Games_Protocol, EndGame_ANC, Handler_FromGameServer::OnAG_EndGame_ANC);
 #endif
 }
 
 void PacketHandler::Register_AL()
 {
-	AddHandler_AL(AL_ClientLogin, AL_PreLogin_ANC, Handler_FromLoginServer::OnAL_PreLogin_ANC);
-	AddHandler_AL(AL_ClientLogin, AL_Login_ANC, Handler_FromLoginServer::OnAL_Login_ANC);
+	//AddHandler_AL(AL_ClientLogin, AL_PreLogin_ANC, Handler_FromLoginServer::OnAL_PreLogin_ANC);
+	//AddHandler_AL(AL_ClientLogin, AL_Login_ANC, Handler_FromLoginServer::OnAL_Login_ANC);
 	
 	// add 2015-08-25
-	AddHandler_AL(AL_ClientLogin, AL_SaveUserKey_SYN, Handler_FromLoginServer::OnAL_SaveUserKey_SYN);
+	//AddHandler_AL(AL_ClientLogin, AL_SaveUserKey_SYN, Handler_FromLoginServer::OnAL_SaveUserKey_SYN);
 }
 
 BOOL PacketHandler::AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnHandler)

@@ -9,12 +9,13 @@ enum eGAME_PROTOCOL {
 	
 	StartGame_REQ 		= 2000,
 	StartGame_ANC,
+	StartGame_NAK,
 	
 	JoinRoom_REQ, 				// 加入房间请求：【玩家X】
 	JoinRoom_ANC, 				// 加入房间应答：【房间ID, 玩家{1,2,3}】
 	
 	JoinTable_REQ, 				// 加入桌子请求
-	JoinTable_ANC 		= 2005, // 加入桌子应答
+	JoinTable_ANC, 				// 加入桌子应答
 	
 	JoinGame_REQ, 				// 加入房加：【玩家X】
 	JoinGame_ANC, 				// 加入房加：【房间ID, 玩家{1,2,3}】

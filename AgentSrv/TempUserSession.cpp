@@ -40,7 +40,7 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 		printf("Debug m_bFirst != TRUE. So return.\n");
 		return;
 	}
-	
+#if 0	
 	MSG_CA_LOGIN_REQ * pRecvMsg = (MSG_CA_LOGIN_REQ *) pMsg;
 	printf("RootID = %d, UserKey = %s\n", pRecvMsg->m_uiRootID, pRecvMsg->m_byUserKey);
 	
@@ -106,6 +106,7 @@ void TempUserSession::OnRecv(BYTE *pMsg, WORD wSize)
 	
 	printf("\n>>>> Free TempUserSesion <<<<\n");
 	AgentFactory::Instance()->FreeTempUserSession(this);
+#endif	
 }
 
 void TempUserSession::OnLogString( char * pszLog)
