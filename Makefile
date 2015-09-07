@@ -43,18 +43,12 @@ AgentServerObjs = AgentSrv/AgentMain.o \
 				  AgentSrv/AgentFactory.o \
 				  AgentSrv/AgentServer.o \
 				  AgentSrv/GameServerSession.o \
-				  AgentSrv/LoginServerSession.o \
 				  AgentSrv/ServerSession.o \
 				  AgentSrv/TempServerSession.o \
-				  AgentSrv/TempUserSession.o \
-				  AgentSrv/User.o \
 				  AgentSrv/UserSession.o \
-				  AgentSrv/Handler_FromClient.o \
 				  AgentSrv/Handler_FromGameServer.o \
-				  AgentSrv/Handler_FromLoginServer.o \
 				  AgentSrv/PacketHandler.o \
 				  AgentSrv/GameServerSession.o \
-				  AgentSrv/UserManager.o \
 				  AgentSrv/RootID.o \
 				  AgentSrv/RootidManager.o
 		  

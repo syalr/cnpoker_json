@@ -25,12 +25,14 @@ struct SERVER_INFO
 #include "Poker.h"
 
 #include "InfoParser.h"
-#include "AgentInfo.h"
+#include "JsonParser.h"
 
-#include "MsgProcess.h"
+//#include "AgentInfo.h"
 
-#include "PlayerGoods.h"
-#include "PlayerTasks.h"
+//#include "MsgProcess.h"
+
+//#include "PlayerGoods.h"
+//#include "PlayerTasks.h"
 
 
 #endif // _PUBLIC_H_INCLUDED_

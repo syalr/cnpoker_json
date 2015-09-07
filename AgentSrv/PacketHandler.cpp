@@ -1,6 +1,8 @@
 #include "PacketHandler.h"
 #include "AgentServer.h"
-#include "Handler_FromClient.h"
+
+//#include "Handler_FromClient.h"
+
 #include "Handler_FromGameServer.h"
 #include "Handler_FromLoginServer.h"
 
@@ -8,43 +10,40 @@ PacketHandler g_PacketHandler;
 
 PacketHandler::PacketHandler(void)
 {
-	m_pFuncMap_CA = new FunctionMap;
+	//m_pFuncMap_CA = new FunctionMap;
 	m_pFuncMap_AG = new FunctionMap;
-	m_pFuncMap_AL = new FunctionMap;
 	RegisterHandler();
 }
 
 PacketHandler::~PacketHandler(void)
 {
-	SAFE_DELETE(m_pFuncMap_CA);
+	//SAFE_DELETE(m_pFuncMap_CA);
 	SAFE_DELETE(m_pFuncMap_AG);
-	SAFE_DELETE(m_pFuncMap_AL);
 }
 
 BOOL PacketHandler::RegisterHandler()
 {
-	Register_CA();
+	//Register_CA();
 	Register_AG();
-	Register_AL();
 	return TRUE;
 }	
 
-void PacketHandler::Register_CA()
-{	
-	AddHandler_CA( Login_Protocol, Login_REQ, Handler_FromClient::OnLogin_REQ );
-	
-	//AddHandler_CA( Login_Protocol, CA_ReLogin_REQ, Handler_FromClient::OnCA_ReLogin_REQ);	
-	//AddHandler_CA( Login_Protocol, CA_Logout_REQ, Handler_FromClient::OnCA_Logout_REQ);
-
-	// sylar 2015-08-16
-	//AddHandler_CA( Games_Protocol, StartGame_REQ, Handler_FromClient::OnStartGame_REQ );	
-	//AddHandler_CA( Games_Protocol, JoinRoom_REQ, Handler_FromClient::OnJoinRoom_REQ );
-	//AddHandler_CA( Games_Protocol, JoinTable_REQ, Handler_FromClient::OnJoinTable_REQ );
-	//AddHandler_CA( Games_Protocol, ShowCards_REQ, Handler_FromClient::OnShowCards_REQ );
-	//AddHandler_CA( Games_Protocol, Discards_BRD, Handler_FromClient::OnDiscards_BRD );
-	//AddHandler_CA( Games_Protocol, EndGame_SYN, Handler_FromClient::OnEndGame_SYN );	
-	//AddHandler_CA( Games_Protocol, InitCards_BRD, Handler_FromClient::OnInitCards_BRD );
-}
+//void PacketHandler::Register_CA()
+//{	
+//	AddHandler_CA( Login_Protocol, Login_REQ, Handler_FromClient::OnLogin_REQ );
+//	
+//	AddHandler_CA( Login_Protocol, ReLogin_REQ, Handler_FromClient::OnReLogin_REQ );	
+//	AddHandler_CA( Login_Protocol, Logout_REQ, Handler_FromClient::OnLogout_REQ );
+//
+//	// sylar 2015-08-16
+//	AddHandler_CA( Games_Protocol, StartGame_REQ, Handler_FromClient::OnStartGame_REQ );	
+//	AddHandler_CA( Games_Protocol, JoinRoom_REQ, Handler_FromClient::OnJoinRoom_REQ );
+//	AddHandler_CA( Games_Protocol, JoinTable_REQ, Handler_FromClient::OnJoinTable_REQ );
+//	AddHandler_CA( Games_Protocol, ShowCards_REQ, Handler_FromClient::OnShowCards_REQ );
+//	AddHandler_CA( Games_Protocol, Discards_REQ, Handler_FromClient::OnDiscards_REQ );
+//	AddHandler_CA( Games_Protocol, EndGame_SYN, Handler_FromClient::OnEndGame_SYN );	
+//	AddHandler_CA( Games_Protocol, InitCards_BRD, Handler_FromClient::OnInitCards_BRD );
+//}
 
 void PacketHandler::Register_AG()
 {
@@ -71,25 +70,16 @@ void PacketHandler::Register_AG()
 #endif
 }
 
-void PacketHandler::Register_AL()
-{
-	//AddHandler_AL(AL_ClientLogin, AL_PreLogin_ANC, Handler_FromLoginServer::OnAL_PreLogin_ANC);
-	//AddHandler_AL(AL_ClientLogin, AL_Login_ANC, Handler_FromLoginServer::OnAL_Login_ANC);
-	
-	// add 2015-08-25
-	//AddHandler_AL(AL_ClientLogin, AL_SaveUserKey_SYN, Handler_FromLoginServer::OnAL_SaveUserKey_SYN);
-}
-
-BOOL PacketHandler::AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnHandler)
-{
-	FUNC_CA * pFuncInfo	= new FUNC_CA;
-	//printf("category:%d,protocol:%d\n", category, protocol);	
-	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
-	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
-	pFuncInfo->m_fnHandler		= fnHandler;
-	
-	return m_pFuncMap_CA->Add( pFuncInfo );
-}
+//BOOL PacketHandler::AddHandler_CA( WORD category, WORD protocol, fnHandler_c fnHandler)
+//{
+//	FUNC_CA * pFuncInfo	= new FUNC_CA;
+//	//printf("category:%d,protocol:%d\n", category, protocol);	
+//	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
+//	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
+//	pFuncInfo->m_fnHandler		= fnHandler;
+//	
+//	return m_pFuncMap_CA->Add( pFuncInfo );
+//}
 
 BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler)
 {
@@ -101,27 +91,17 @@ BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHan
 	return m_pFuncMap_AG->Add( pFuncInfo );
 }
 
-BOOL PacketHandler::AddHandler_AL( WORD category, WORD protocol, fnHandler fnHandler)
-{
-	FUNC_AL * pFuncInfo	= new FUNC_AL;
-	
-	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
-	pFuncInfo->m_fnHandler		= fnHandler;
-	
-	return m_pFuncMap_AL->Add( pFuncInfo );
-}
-
-VOID PacketHandler::ParsePacket_CA( UserSession * pSession, MSG_BASE * pMsg, WORD wSize )
-{
-	assert(NULL != pMsg);	
-	
-	printf("PacketHandler::ParsePacket CA \n");
-	
-	FUNC_CA * pFuncInfo = (FUNC_CA *)m_pFuncMap_CA->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
-	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
-
-	//AddLogMsg(LOG_OUT, "ParsePacket_CA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
-}
+//VOID PacketHandler::ParsePacket_CA( UserSession * pSession, MSG_BASE * pMsg, WORD wSize )
+//{
+//	assert(NULL != pMsg);	
+//	
+//	printf("PacketHandler::ParsePacket CA \n");
+//	
+//	FUNC_CA * pFuncInfo = (FUNC_CA *)m_pFuncMap_CA->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
+//	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
+//
+//	//AddLogMsg(LOG_OUT, "ParsePacket_CA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
+//}
 
 VOID PacketHandler::ParsePacket_AG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
@@ -133,15 +113,3 @@ VOID PacketHandler::ParsePacket_AG( ServerSession * pSession, MSG_BASE * pMsg, W
 
 	//AddLogMsg(LOG_OUT, "ParsePacket_AG Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
-
-VOID PacketHandler::ParsePacket_AL( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
-{
-	assert(NULL != pMsg);
-	printf("PacketHandler::ParsePacket AL \n");
-	
-	FUNC_AL * pFuncInfo = (FUNC_AL *)m_pFuncMap_AL->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
-	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
-
-	//AddLogMsg(LOG_OUT, "ParsePacket_AG Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
-}
-

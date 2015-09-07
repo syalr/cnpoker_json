@@ -17,5 +17,9 @@
 #define CNPOKER_CARD_LEN_2 		( 20 )
 
 #define IP_MAX_LEN 				( 32 )
+#define PORT_MAX				(0xFFFF)
+
+#define REQUEST_SAFETY			( 3 )
+
 
 #endif // DEFINE_H_INCLUDED_

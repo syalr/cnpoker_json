@@ -9,6 +9,14 @@ enum eLOGIN_PROTOCOL
 	Login_REQ			= 300,
 	Login_ANC,
 	Login_NAK,
+	
+	ReLogin_REQ,
+	ReLogin_ANC,
+	ReLogin_NAK,
+	
+	Logout_REQ,
+	Logout_ANC,
+	Logout_NAK,
 };
 
 #endif // _PROTOCOLCA_H_INCLUDED_

@@ -28,12 +28,14 @@ public:
 	
 	BOOL SendToGameServer( BYTE * pMsg, WORD wSize);
 	
-	BOOL SendToLoginServer( BYTE * pMsg, WORD wSize);
-	
 	ServerSession * GetGameServerSession() const;
-	ServerSession * GetLoginServerSession() const;
+	
+	// User Session
+	BOOL SendToClient( BYTE * pMsg, WORD wSize );
+	BOOL SetUserSession( WORD wIndex, UserSession * pSession );
 	
 	//BOOL ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort);
+	
 private:
 	BOOL 	m_bShutdown;
 	
@@ -42,6 +44,9 @@ private:
 	ServerSession * m_pGameServer;
 	
 	ServerSession * m_pLoginServer;
+	
+	// UserKey = Key;  maxsize = 0xFFFF+1;
+	UserSession * m_pUserSession[PORT_MAX + 1];
 };
 
 extern AgentServer * g_AgentServer;

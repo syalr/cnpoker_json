@@ -1,7 +1,5 @@
 #include "AgentServer.h"
 
-#include "UserManager.h"
-
 #include "RootidManager.h"
 
 NetworkObject * CreateServerSideAcceptedObject();
@@ -80,7 +78,7 @@ BOOL AgentServer::Init()
 		return FALSE;
 	}
 
-	g_UserManager.InitUserSize( MAX_PLAYER_NUM ); // 1000
+	//g_UserManager.InitUserSize( MAX_PLAYER_NUM ); // 1000
 	//RootidManager::Instance()->Init(); // 保存临时的 RootID 和 UserKey
 	
 	
@@ -92,14 +90,6 @@ BOOL AgentServer::Init()
 		printf("[AgentFactory::Instance()->AllocGameServerSession] fail\n");
 		return FALSE;
 	}
-	
-	// 其他Login 主动连接过来
-	m_pLoginServer = AgentFactory::Instance()->AllocLoginServerSession();
-	if ( m_pLoginServer == NULL) {
-		printf("[AgentFactory::Instance()->AllocLoginServerSession] fail\n");
-		return FALSE;
-	}
-
 	
 	return TRUE;	
 }
@@ -160,25 +150,46 @@ BOOL AgentServer::SendToGameServer( BYTE * pMsg, WORD wSize)
 	return FALSE;
 }
 
-BOOL AgentServer::SendToLoginServer( BYTE * pMsg, WORD wSize)
-{
-	printf("[AgentServer::SendToLoginServer]\n");
-	
-	if ( m_pLoginServer ) {
-		return m_pLoginServer->Send( pMsg, wSize );
-	}
-	return FALSE;
-}
 
 ServerSession * AgentServer::GetGameServerSession() const
 {
 	return m_pGameServer;
 }
 
-ServerSession * AgentServer::GetLoginServerSession() const
+// User Server;
+BOOL AgentServer::SendToClient( BYTE * pMsg, WORD wSize )
 {
-	return m_pLoginServer;
+	MSG_BASE_FORWARD * pBase = (MSG_BASE_FORWARD *) pMsg;
+	
+	WORD wIndex = pBase->m_wUserPort;
+	if ( wIndex == 0 ) {
+		return FALSE;	
+	}
+	
+	UserSession * pSession = m_pUserSession[wIndex];
+	if ( pSession != NULL ) {
+		WORD sendSize =  wSize - sizeof(MSG_BASE_FORWARD);
+		BYTE * sendMsg = (BYTE *) ( pBase);
+		sendMsg += sizeof(MSG_BASE_FORWARD);
+		pSession->Send(sendMsg, sendSize);
+	}
 }
+
+BOOL AgentServer::SetUserSession(WORD wIndex, UserSession * pSession)
+{
+	printf("[AgentServer::SetUserSession]\n");
+	
+	if ( wIndex == 0 ) {
+		return FALSE;
+	}
+	
+	m_pUserSession[wIndex] = pSession;
+	
+	printf(" [ LoginServer::SetUserSession pSession = %d ] \n", pSession);
+	
+	return TRUE;
+}
+
 
 #if 0
 BOOL AgentServer::ConnectToServer(ServerSession * pSession, char * pszIP, WORD wPort)
@@ -211,12 +222,7 @@ VOID DestroyServerSideAcceptedObject( NetworkObject *pObjs ) {
 	
 	ServerSession * pSession = (ServerSession *)pObjs;
 	eSERVER_TYPE eType = pSession->GetServerType();
-	if ( eType == LOGIN_SERVER ) {
-		printf(">>>FreeLoginServerSession()\n");
-		LoginServerSession * obj = (LoginServerSession *)pObjs;
-		AgentFactory::Instance()->FreeLoginServerSession(obj);
-	}
-	else if ( eType == GAME_SERVER ) {
+	if ( eType == GAME_SERVER ) {
 		printf(">>>FreeGameServerSession()\n");
 		GameServerSession * obj = (GameServerSession *)pObjs;
 		AgentFactory::Instance()->FreeGameServerSession(obj);
@@ -227,28 +233,23 @@ VOID DestroyServerSideConnectedObject( NetworkObject *pNetworkObject ) {
 	printf("[AgentServer::DestroyServerSideConnectedObject]: Not Used.\n");
 }
 
+// 客户端
 NetworkObject * CreateClientSideAcceptedObject() {
 	printf("[AgentServer::CreateClientSideAcceptedObject]: Alloc TempUserSession.\n");
-	TempUserSession * obj = AgentFactory::Instance()->AllocTempUserSession();
+	UserSession * obj = AgentFactory::Instance()->AllocUserSession();
 	if ( obj == NULL) {
-		printf("\nAgentFactory::Instance()->AllocTempUserSession() Fail.\n");
+		printf("\nAgentFactory::Instance()->AllocUserSession() Fail.\n");
 		return NULL;
 	}
+	obj->Init();
+	
 	return (NetworkObject *)(obj);
 }
 
 VOID DestroyClientSideAcceptedObject( NetworkObject * pObjs ) {
 	printf("[AgentServer::DestroyClientSideAcceptedObject]: Free User or TempUser.\n");
 	UserSession * pSession = (UserSession *)pObjs;
-	eUSER_TYPE eType = pSession->GetUserType();
-	if ( eType == UT_USER ) {
-		pSession->Release();		
-	}
-	else if ( eType == UT_TEMP_USER ) {
-		pSession->Release();
-	}
-	
-	
+	pSession->Release();	
 }
 
 VOID DestroyClientSideConnectedObject( NetworkObject * pNetworkObject ) {
