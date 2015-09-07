@@ -62,7 +62,7 @@ int Json_LoginREQ::ParseJson( const char * pInput )
 	}
 	
 	// 数据是否完整
-	if ( dwStatus != 0x03 ) {
+	if ( dwStatus != eALLINFO ) {
 		printf("[Json_LoginREQ] Information not enought.\n");
 		return -1;
 	}

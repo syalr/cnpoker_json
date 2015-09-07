@@ -36,8 +36,7 @@ struct MSG_BASE_FORWARD : public MSG_BASE
 	WORD m_wAgentPort;
 	WORD m_wReserverPort;
 	WORD m_wGamePort;
-	
-	
+		
 	MSG_BASE_FORWARD()
 	{
 		memset(this, 0, sizeof(MSG_BASE_FORWARD) );

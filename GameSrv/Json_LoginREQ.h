@@ -8,6 +8,7 @@ class Json_LoginREQ
 		eUNKNOWN 		= 0x00,
 		eUSERID			= 0x01,
 		eSSHKEY 		= 0x02,
+		eALLINFO 		= 0x03,
 	};
 
 public:
