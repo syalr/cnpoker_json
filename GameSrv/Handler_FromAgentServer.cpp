@@ -3,6 +3,9 @@
 #include "GameServer.h"
 #include "GameUserManager.h"
 
+#include "Json_LoginREQ.h"
+
+
 Handler_FromAgentServer::Handler_FromAgentServer() 
 {
 	
@@ -13,9 +16,31 @@ Handler_FromAgentServer::~Handler_FromAgentServer()
 	
 }
 
-HANDLER_IMPL( AG_Login_REQ )
+HANDLER_IMPL( Login_REQ )
 {
-	printf("Step2: <2> AG_Login_REQ\n");
+	printf("Login_REQ\n");
+	
+	
+	MSG_BASE_FORWARD * pRecvMsg = (MSG_BASE_FORWARD *)pMsg;
+	printf(">>> User Port = %d\n", pRecvMsg->m_wUserPort );
+	
+	char json_msgs[1024] = {0};
+	memcpy( json_msgs, ( ( BYTE * )pMsg) + sizeof( pRecvMsg ), wSize - sizeof( pRecvMsg ) );
+	
+	Json_LoginREQ js_login;
+	int nRet = js_login.ParseJson( (char * ) json_msgs );
+	if ( nRet != 0 ) {
+		// Login_NAK返回给 Agent
+		return;
+	}
+	
+	MSG_LOGIN_REQ sendDB;
+	if ( js_login.GetMsg( &sendDB ) != NULL ) {
+		sendDB.m_wUserPort = pRecvMsg->m_wUserPort;
+		g_GameServer->SendToDBServer( (BYTE*)&sendDB, sizeof( sendDB ) );
+	}
+	
+#if 0	
 	MSG_AG_LOGIN_REQ * pRecvMsg = (MSG_AG_LOGIN_REQ *)pMsg;
 	
 	DWORD uiRootID = pRecvMsg->m_uiRootID;
@@ -26,12 +51,13 @@ HANDLER_IMPL( AG_Login_REQ )
 	msg2.m_uiRootID = uiRootID;
 	
 	g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( AG_Logout_REQ )
+HANDLER_IMPL( Logout_REQ )
 {
-	printf("Logout: <2> AG_Logout_REQ\n");
-
+	printf("Logout_REQ\n");
+#if 0
 	MSG_AG_LOGOUT_REQ * pRecvMsg = (MSG_AG_LOGOUT_REQ *)pMsg;
 	
 	DWORD uiRootID = pRecvMsg->m_uiRootID;
@@ -40,13 +66,14 @@ HANDLER_IMPL( AG_Logout_REQ )
 	MSG_GD_LOGOUT_REQ msg2;
 	msg2.m_dwParameter = pRecvMsg->m_dwParameter; // User ID
 	msg2.m_uiRootID = uiRootID;
-	g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );	
+	g_GameServer->SendToDBServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( AG_StartGame_REQ )
+HANDLER_IMPL( StartGame_REQ )
 {
-	printf("AG_StartGame_REQ\n");
-	
+	printf("StartGame_REQ\n");
+#if 0
 	MSG_AG_START_GAME_REQ * pRecvMsg = (MSG_AG_START_GAME_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -59,12 +86,13 @@ HANDLER_IMPL( AG_StartGame_REQ )
 	msg2.m_dwParameter = dwUserID;
 	
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( AG_JoinRoom_REQ )
+HANDLER_IMPL( JoinRoom_REQ )
 {
-	printf("AG_JoinRoom_REQ\n");
-	
+	printf("JoinRoom_REQ\n");
+#if 0	
 	MSG_AG_JOINROOM_REQ * pRecvMsg = (MSG_AG_JOINROOM_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	unsigned int uiRoomNumber = pRecvMsg->m_uiRoomNumber;
@@ -80,12 +108,13 @@ HANDLER_IMPL( AG_JoinRoom_REQ )
 	MSG_AG_JOINROOM_ANC msg2;
 	msg2.m_dwParameter = dwUserID;
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( AG_JoinTable_REQ )
+HANDLER_IMPL( JoinTable_REQ )
 {
-	printf("AG_JoinTable_REQ\n");
-	
+	printf("JoinTable_REQ\n");
+#if 0	
 	MSG_AG_JOINTABLE_REQ * pRecvMsg = (MSG_AG_JOINTABLE_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	unsigned int uiTableNumber = pRecvMsg->m_uiTableNumber;
@@ -110,12 +139,14 @@ HANDLER_IMPL( AG_JoinTable_REQ )
 	// 回复 AG_JoinTable_ANC 信息
 	//MSG_AG_JOINTABLE_ANC msg2;
 	//g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( AG_InitCards_BRD )
+HANDLER_IMPL( InitCards_BRD )
 {
-	printf("AG_InitCards_BRD\n");
-	
+	printf("InitCards_BRD\n");
+
+#if 0	
 	MSG_AG_INITCARDS_BRD * pRecvMsg = (MSG_AG_INITCARDS_BRD *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -132,12 +163,14 @@ HANDLER_IMPL( AG_InitCards_BRD )
 	MSG_AG_INITCARDS_ANC msg2;
 	msg2.m_byParameter = dwUserID;
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
 // 叫地主
-HANDLER_IMPL( AG_CallLandlord_REQ )
+HANDLER_IMPL( CallLandlord_REQ )
 {
-	printf("AG_CallLandlord_REQ\n");
+	printf("CallLandlord_REQ\n");
+#if 0	
 	MSG_AG_CALLLANDLOARD_REQ * pRecvMsg = (MSG_AG_CALLLANDLOARD_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -152,13 +185,14 @@ HANDLER_IMPL( AG_CallLandlord_REQ )
 	MSG_AG_CALLLANDLOARD_ANC msg2;
 	msg2.m_byParameter = dwUserID;
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
 // 抢地主
-HANDLER_IMPL( AG_GrabLandlord_REQ )
+HANDLER_IMPL( GrabLandlord_REQ )
 {
-	printf("AG_GrabLandlord_REQ\n");
-	
+	printf("GrabLandlord_REQ\n");
+#if 0	
 	MSG_AG_GRABLANDLOARD_REQ * pRecvMsg = (MSG_AG_GRABLANDLOARD_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -172,13 +206,14 @@ HANDLER_IMPL( AG_GrabLandlord_REQ )
 	// 返回 消息包 给 Agent
 	MSG_AG_GRABLANDLOARD_ANC msg2;
 	msg2.m_byParameter = dwUserID;
-	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );	
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( AG_GrabLandlord_BRD )
+HANDLER_IMPL( GrabLandlord_BRD )
 {
-	printf("AG_GrabLandlord_BRD\n");
-	
+	printf("GrabLandlord_BRD\n");
+#if 0	
 	MSG_AG_GRABLANDLOARD_BRD * pRecvMsg = (MSG_AG_GRABLANDLOARD_BRD *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -187,13 +222,14 @@ HANDLER_IMPL( AG_GrabLandlord_BRD )
 		printf("Can't find User %d\n", dwUserID);
 		return;
 	}
-	pUser->GetExtraCards(); // 获取桌面的3张牌	
+	pUser->GetExtraCards(); // 获取桌面的3张牌
+#endif	
 }
 
-HANDLER_IMPL( AG_ShowCards_REQ )
+HANDLER_IMPL( ShowCards_REQ )
 {
-	printf("AG_ShowCards_REQ\n");
-	
+	printf("ShowCards_REQ\n");
+#if 0	
 	MSG_AG_SHOWCARDS_REQ * pRecvMsg = (MSG_AG_SHOWCARDS_REQ *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -203,12 +239,13 @@ HANDLER_IMPL( AG_ShowCards_REQ )
 		return;
 	}
 	pUser->ShowCards();
+#endif	
 }
 
-HANDLER_IMPL( AG_Discards_REQ )
+HANDLER_IMPL( Discards_REQ )
 {
-	printf("AG_Discards_REQ\n");
-	
+	printf("Discards_REQ\n");
+#if 0
 	MSG_AG_DISCARDS_REQ * pRecvMsg = (MSG_AG_DISCARDS_REQ *) pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -226,11 +263,13 @@ HANDLER_IMPL( AG_Discards_REQ )
 		
 		g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
 	}
+#endif	
 }
 
-HANDLER_IMPL( AG_Pass_REQ )
+HANDLER_IMPL( Pass_REQ )
 {
-	printf("AG_Pass_REQ\n");
+	printf("Pass_REQ\n");
+#if 0	
 	MSG_AG_PASS_REQ * pRecvMsg = (MSG_AG_PASS_REQ *)pMsg;	
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	
@@ -244,10 +283,11 @@ HANDLER_IMPL( AG_Pass_REQ )
 	MSG_AG_PASS_ANC msg2;
 	msg2.m_dwParameter = dwUserID;
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( AG_EndGame_SYN )
+HANDLER_IMPL( EndGame_SYN )
 {
-	printf("AG_EndGame_SYN\n");
+	printf("EndGame_SYN\n");
 }
 

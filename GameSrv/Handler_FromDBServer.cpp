@@ -16,10 +16,10 @@ Handler_FromDBServer::~Handler_FromDBServer()
 }
 
 
-HANDLER_IMPL( GD_Login_ANC )
+HANDLER_IMPL( Login_ANC )
 {
-	printf("Step2: <4> GD_Login_ANC.\n");
-	
+	printf(">>> Login_ANC.\n");
+#if 0	
 	MSG_GD_LOGIN_ANC * pRecvMsg = (MSG_GD_LOGIN_ANC *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	printf("UserID = %d\n", dwUserID);
@@ -55,18 +55,19 @@ HANDLER_IMPL( GD_Login_ANC )
 	pUser->SetPlayerInfo(msg2.m_playerInfo);
 	
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
-HANDLER_IMPL( GD_Login_NAK )
+HANDLER_IMPL( Login_NAK )
 {
-	printf("GD_Login_NAK.\n");
+	printf("Login_NAK.\n");
 	
 }
 
-HANDLER_IMPL( GD_Logout_ANC )
+HANDLER_IMPL( Logout_ANC )
 {
-	printf("Logout: <4> GD_Logout_ANC\n");
-	
+	printf(">>> Logout_ANC\n");
+#if 0	
 	MSG_GD_LOGOUT_ANC * pRecvMsg = (MSG_GD_LOGOUT_ANC *)pMsg;
 	DWORD dwUserID = pRecvMsg->m_dwParameter;
 	printf("UserID = %d\n", dwUserID);
@@ -93,5 +94,5 @@ HANDLER_IMPL( GD_Logout_ANC )
 	msg2.m_dwParameter = dwUserID;
 	msg2.m_uiRootID = pRecvMsg->m_uiRootID;
 	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
-	
+#endif	
 }

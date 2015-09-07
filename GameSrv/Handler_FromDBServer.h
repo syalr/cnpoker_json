@@ -14,10 +14,10 @@ public:
 	Handler_FromDBServer(void);
 	~Handler_FromDBServer(void);
 
-	HANDLER_DECL( GD_Login_ANC );
-	HANDLER_DECL( GD_Login_NAK );
+	HANDLER_DECL( Login_ANC );
+	HANDLER_DECL( Login_NAK );
 	
-	HANDLER_DECL( GD_Logout_ANC );
+	HANDLER_DECL( Logout_ANC );
 };
 
 

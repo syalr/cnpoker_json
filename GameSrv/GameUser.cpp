@@ -185,6 +185,7 @@ void GameUser::ShowCards()
 {
 	printf("[ShowCards] : Table Number = %d\n", m_uiTableNumber);	
 	
+#if 0	
 	MSG_AG_SHOWCARDS_ANC msg2;
 	msg2.m_dwUserID = m_dwUserID;
 	memcpy(msg2.m_byCards, m_szCards, CNPOKER_CARD_LEN_2); // 将明牌玩家的牌复制进消息包中
@@ -199,13 +200,14 @@ void GameUser::ShowCards()
 	idx = (idx + 1) % 3;
 	dwOtherUserID = GameUser::m_TableInfo[m_uiTableNumber].m_uiUserKey[idx];
 	msg2.m_byParameter = dwOtherUserID;
-	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );	
+	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
+#endif	
 }
 
 void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 {
 	printf("[Discards] : Table Number = %d\n", m_uiTableNumber);	
-
+#if 0
 	// 判断谁出牌
 	if (GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis == -1) {
 		GameUser::m_TableInfo[m_uiTableNumber].m_uiLastDis = m_uiSeat; // 第一次出牌
@@ -279,6 +281,7 @@ void GameUser::Discards(BYTE * pCards, unsigned int uiSize)
 	GameUser::m_TableInfo[m_uiTableNumber].m_ePkType = (ePK_TYPE)nRet;
 	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpValue = cThanValue1;
 	GameUser::m_TableInfo[m_uiTableNumber].m_byCmpCount = cThanCount1;
+#endif	
 }
 
 void GameUser::Pass()

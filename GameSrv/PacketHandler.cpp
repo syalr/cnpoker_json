@@ -28,36 +28,37 @@ BOOL PacketHandler::RegisterHandler()
 
 void PacketHandler::Register_AG()
 {
-	AddHandler_AG( AG_Connect, AG_Login_REQ, Handler_FromAgentServer::OnAG_Login_REQ );
-	AddHandler_AG( AG_Connect, AG_Logout_REQ, Handler_FromAgentServer::OnAG_Logout_REQ );	
+	AddHandler_AG( Login_Protocol, Login_REQ, Handler_FromAgentServer::OnLogin_REQ );
+	AddHandler_AG( Login_Protocol, Logout_REQ, Handler_FromAgentServer::OnLogout_REQ );	
 	
-	AddHandler_AG( AG_Connect, AG_StartGame_REQ, Handler_FromAgentServer::OnAG_StartGame_REQ );	
-	AddHandler_AG( AG_Connect, AG_JoinRoom_REQ, Handler_FromAgentServer::OnAG_JoinRoom_REQ );
-	AddHandler_AG( AG_Connect, AG_JoinTable_REQ, Handler_FromAgentServer::OnAG_JoinTable_REQ );
-	AddHandler_AG( AG_Connect, AG_ShowCards_REQ, Handler_FromAgentServer::OnAG_ShowCards_REQ );
-	AddHandler_AG( AG_Connect, AG_Discards_REQ, Handler_FromAgentServer::OnAG_Discards_REQ );
-	AddHandler_AG( AG_Connect, AG_EndGame_SYN, Handler_FromAgentServer::OnAG_EndGame_SYN );
+	AddHandler_AG( Games_Protocol, StartGame_REQ, Handler_FromAgentServer::OnStartGame_REQ );	
+	AddHandler_AG( Games_Protocol, JoinRoom_REQ, Handler_FromAgentServer::OnJoinRoom_REQ );
+	AddHandler_AG( Games_Protocol, JoinTable_REQ, Handler_FromAgentServer::OnJoinTable_REQ );
+	AddHandler_AG( Games_Protocol, ShowCards_REQ, Handler_FromAgentServer::OnShowCards_REQ );
+	AddHandler_AG( Games_Protocol, Discards_REQ, Handler_FromAgentServer::OnDiscards_REQ );
+	AddHandler_AG( Games_Protocol, EndGame_SYN, Handler_FromAgentServer::OnEndGame_SYN );
 	
-	AddHandler_AG( AG_Connect, AG_InitCards_BRD, Handler_FromAgentServer::OnAG_InitCards_BRD );
+	AddHandler_AG( Games_Protocol, InitCards_BRD, Handler_FromAgentServer::OnInitCards_BRD );
 }
 
 void PacketHandler::Register_DG()
 {
-	AddHandler_DG(GD_ClientLogin, GD_Login_ANC, Handler_FromDBServer::OnGD_Login_ANC);
+	AddHandler_DG( Login_Protocol, Login_ANC, Handler_FromDBServer::OnLogin_ANC );
 	
-	AddHandler_DG(GD_ClientLogin, GD_Login_NAK, Handler_FromDBServer::OnGD_Login_NAK);
+	AddHandler_DG( Login_Protocol, Login_NAK, Handler_FromDBServer::OnLogin_NAK );
 	
-	AddHandler_DG(GD_ClientLogin, GD_Logout_ANC, Handler_FromDBServer::OnGD_Logout_ANC);
+	AddHandler_DG( Login_Protocol, Logout_ANC, Handler_FromDBServer::OnLogout_ANC );
 	
 }
 
 BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler)
 {
 	FUNC_AG * pFuncInfo	= new FUNC_AG;
-	//printf("category:%d,protocol:%d\n", category, protocol);	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
-	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
 	pFuncInfo->m_fnHandler		= fnHandler;
+	
+	//printf("category:%d,protocol:%d\n", category, protocol);	
+	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
 	
 	return m_pFuncMap_AG->Add( pFuncInfo );
 }

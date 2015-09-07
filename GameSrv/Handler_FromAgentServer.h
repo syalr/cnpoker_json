@@ -15,31 +15,31 @@ public:
 	~Handler_FromAgentServer(void);
 	
 #if 0
-	HANDLER_DECL( AG_Heartbeat_SYN );
+	HANDLER_DECL( Heartbeat_SYN );
 	
-	HANDLER_DECL( AG_Logout_REQ );
-	HANDLER_DECL( AG_Relogin_SYN );	
+	HANDLER_DECL( Logout_REQ );
+	HANDLER_DECL( Relogin_SYN );	
 #endif
-	HANDLER_DECL( AG_Login_REQ ); 	// 登录
-	HANDLER_DECL( AG_Logout_REQ ); 	// 登出
+	HANDLER_DECL( Login_REQ ); 	// 登录
+	HANDLER_DECL( Logout_REQ ); 	// 登出
 
-	HANDLER_DECL( AG_StartGame_REQ ); // 开始游戏
+	HANDLER_DECL( StartGame_REQ ); // 开始游戏
 	
-	HANDLER_DECL( AG_JoinRoom_REQ );
-	HANDLER_DECL( AG_JoinTable_REQ );
+	HANDLER_DECL( JoinRoom_REQ );
+	HANDLER_DECL( JoinTable_REQ );
 		
-	HANDLER_DECL( AG_InitCards_BRD ); // 初始化牌
+	HANDLER_DECL( InitCards_BRD ); // 初始化牌
 	
-	HANDLER_DECL( AG_CallLandlord_REQ ); // 叫地主
-	HANDLER_DECL( AG_GrabLandlord_REQ ); // 抢地主
-	HANDLER_DECL( AG_GrabLandlord_BRD ); // 抢地主 广播
+	HANDLER_DECL( CallLandlord_REQ ); // 叫地主
+	HANDLER_DECL( GrabLandlord_REQ ); // 抢地主
+	HANDLER_DECL( GrabLandlord_BRD ); // 抢地主 广播
 	
-	HANDLER_DECL( AG_ShowCards_REQ );
-	HANDLER_DECL( AG_Discards_REQ );
+	HANDLER_DECL( ShowCards_REQ );
+	HANDLER_DECL( Discards_REQ );
 	
-	HANDLER_DECL( AG_Pass_REQ ); // 要不起
+	HANDLER_DECL( Pass_REQ ); // 要不起
 	
-	HANDLER_DECL( AG_EndGame_SYN );
+	HANDLER_DECL( EndGame_SYN );
 	
 	
 };

@@ -10,8 +10,8 @@
 // Login Req
 struct MSG_LOGIN_REQ : public MSG_BASE_FORWARD
 {
-	DWORD m_dwUserID;
-	BYTE m_UserKey[CODE_KEY_LEN+1];
+	DWORD 	m_dwUserID;
+	BYTE 	m_bySshKey[CODE_KEY_LEN+1];
 	
 	MSG_LOGIN_REQ() 
 	{

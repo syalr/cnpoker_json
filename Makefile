@@ -52,17 +52,18 @@ AgentServerObjs = AgentSrv/AgentMain.o \
 				  AgentSrv/RootID.o \
 				  AgentSrv/RootidManager.o
 		  
-#GameServerObjs 	= GameSrv/AgentServerSession.o \
-#				  GameSrv/DBServerSession.o \
-#				  GameSrv/GameFactory.o \
-#				  GameSrv/GameMain.o \
-#				  GameSrv/GameServer.o \
-#				  GameSrv/GameUser.o \
-#				  GameSrv/GameUserManager.o \
-#				  GameSrv/Handler_FromAgentServer.o \
-#				  GameSrv/Handler_FromDBServer.o \
-#				  GameSrv/PacketHandler.o \
-#				  GameSrv/ServerSession.o
+GameServerObjs 	= GameSrv/AgentServerSession.o \
+				  GameSrv/DBServerSession.o \
+				  GameSrv/GameFactory.o \
+				  GameSrv/GameMain.o \
+				  GameSrv/GameServer.o \
+				  GameSrv/GameUser.o \
+				  GameSrv/GameUserManager.o \
+				  GameSrv/Handler_FromAgentServer.o \
+				  GameSrv/Handler_FromDBServer.o \
+				  GameSrv/PacketHandler.o \
+				  GameSrv/ServerSession.o \
+				  GameSrv/Json_LoginREQ.o
 
 #DBServerObjs 	= HyMysql/HyDatabase.o \
 #				  HyMysql/IDBCInterface.o \
@@ -101,16 +102,15 @@ AgentServerObjs = AgentSrv/AgentMain.o \
 				  
 BINDIR = bin
 
-all: checkbin $(BINDIR)/AgentServer 
-#$(BINDIR)/GameServer 
+all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer 
 #$(BINDIR)/DBServer 
 #$(BINDIR)/LoginServer
 
 $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServerObjs)
 	$(CC) -g $^ -o $@ -pthread
 
-#$(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerObjs)
-#	$(CC) -g $^ -o $@ -pthread
+$(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerObjs)
+	$(CC) -g $^ -o $@ -pthread
 
 #$(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
 #	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread
