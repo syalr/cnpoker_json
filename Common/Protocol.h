@@ -1,6 +1,7 @@
 #ifndef _PROTOCOL_H_INCLUDED_
 #define _PROTOCOL_H_INCLUDED_
 
+
 //--------------------------------------------------------------
 /*
 消息命名规则
@@ -16,36 +17,14 @@
 */
 //--------------------------------------------------------------
 
-enum eCategory_Type {
-	/***** AG: Agent --> Game *****/
-	AG_Connect 			= 10,
-	AG_ClientLogin 		= 11,
-	AG_Update 			= 12,
-	
-	/***** AL: Agent --> Login *****/
-	AL_Connect 			= 20,
-	AL_ClientLogin 		= 21,
-	AL_Update 			= 22,
-	
-	/***** CA: Client --> Agent *****/
-	CA_Connect 			= 30,
-	CA_Client 	 		= 31,
-	CA_Game 		 	= 32,
-	
-	/***** CL: Client --> Login *****/
-	CL_Connect 			= 40,
-	CL_ClientLogin 		= 41,	
-	CL_Update 			= 42,
-	
-	/***** GD: GAME --> DB *****/
-	GD_Connect 			= 50,
-	GD_ClientLogin 		= 51,	
-	GD_Update 			= 52,
-	
-	/***** LD: Login --> DB *****/
-	LD_Connect 			= 60,
-	LD_ClientLogin 		= 61,	
-	LD_Update 			= 62,
+
+enum eCATEGORY_TYPE 
+{
+	Connect_Protocol    = 600, 		// 连接类型数据	(连接认证、心跳包)
+	Login_Protocol		= 700,		// 登陆类型数据	(预登录、登录、退出)
+	Games_Protocol		= 800,		// 游戏类型数据
+	Update_Protocol		= 900,		// 更新类型数据 (查询 和 插入数据类型)
 };
+
 
 #endif // _PROTOCOL_H_INCLUDED_

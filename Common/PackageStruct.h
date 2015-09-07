@@ -31,13 +31,16 @@ struct MSG_SERVER_TYPE : public MSG_BASE
 
 struct MSG_BASE_FORWARD : public MSG_BASE
 {
-	DWORD	m_dwParameter;
-	BYTE	m_byParameter;
-
+	DWORD	m_dwMsgNumber;
+	WORD	m_byUserPort;
+	BYTE	m_byAgentPort;
+	BYTE	m_byGamePort;
 	MSG_BASE_FORWARD()
 	{
-		m_dwParameter = 0;
-		m_byParameter = 0;
+		DWORD	m_dwMsgNumber;
+		WORD	m_byUserPort;
+		BYTE	m_byAgentPort;
+		BYTE	m_byGamePort;
 	}
 };
 

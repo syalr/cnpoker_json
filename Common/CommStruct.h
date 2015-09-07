@@ -72,16 +72,6 @@ struct PlayerInfo
 	}
 };
 
-/*	struct CardInfo
-{
-	uint m_uiCards[CNPOKER_CARD_LEN_2]; 	// 握有的牌
-	bool m_bDiscards[CNPOKER_CARD_LEN_1]; 	// 打出的牌
-	
-	CardInfo()
-	{
-		memset( this, 0, sizeof(Cards) );		
-	}
-};	*/
 
 struct TableInfo 
 {

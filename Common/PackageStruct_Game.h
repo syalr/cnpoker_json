@@ -1,64 +1,12 @@
-#ifndef _PACKAGESTRUCT_GA_H_INCLUDED_
-#define _PACKAGESTRUCT_GA_H_INCLUDED_
+#ifndef _PACKAGESTRUCT_GAME_H_INCLUDED_
+#define _PACKAGESTRUCT_GAME_H_INCLUDED_
 
 #include "PackageStruct.h"
-#include "Protocol_AG.h"
+#include "Protocol_Game.h"
 
 #include "CommStruct.h"
 
 #pragma pack(push, 1)
-
-// 登录 请求
-struct MSG_AG_LOGIN_REQ : public MSG_BASE_FORWARD
-{
-	DWORD m_uiRootID;
-	
-	MSG_AG_LOGIN_REQ() 
-	{
-		memset( this, 0, sizeof(MSG_AG_LOGIN_REQ) );
-		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Login_REQ; // 
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
-	}
-};
-
-// 登录 应答
-struct MSG_AG_LOGIN_ANC : public MSG_BASE_FORWARD
-{
-	PlayerInfo m_playerInfo;
-	//unsigned int m_uiRootID;
-	
-	MSG_AG_LOGIN_ANC() 
-	{
-		memset( this, 0, sizeof(MSG_AG_LOGIN_ANC) );
-		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Login_ANC; //
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
-	}
-};
-
-// 登出 请求
-struct MSG_AG_LOGOUT_REQ : public MSG_BASE_FORWARD
-{
-	DWORD m_uiRootID;
-	
-	MSG_AG_LOGOUT_REQ() 
-	{
-		memset( this, 0, sizeof(MSG_AG_LOGOUT_REQ) );
-		
-		m_byCategory = AG_Connect; // 10
-		m_byProtocol = AG_Logout_REQ; // 
-		
-		m_dwParameter = 0; // dwUserID
-		m_byParameter = 0;
-	}
-};
 
 // 登出 应答
 struct MSG_AG_LOGOUT_ANC : public MSG_BASE_FORWARD
