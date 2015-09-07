@@ -5,6 +5,7 @@
 NetworkObject::NetworkObject()
 {
 	m_pSession = NULL;
+	m_bPackageHander = TRUE; 
 }
 
 NetworkObject::~NetworkObject()
@@ -73,3 +74,12 @@ SOCKADDR_IN* NetworkObject::GetSockAddr()
 	}
 }*/
 	
+WORD NetworkObject::GetPort()
+{
+	if( m_pSession ) {
+		return ntohs( m_pSession->GetSockAddr()->sin_port );
+	}
+	else {
+		return 0;
+	}
+}
