@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -fPIC -D_FILELINE -Wno-deprecated 
 #HOME = /mnt/Shared/moche 
-HOME = /mnt/share/cnpoker_json
+HOME = /mnt/Shared/T20150906
 
 MYSQLINC = /usr/include/mysql
 MYSQLLIB = -L /usr/lib64/mysql -l mysqlclient -lz -lm
@@ -21,6 +21,7 @@ PublicObjs 		= Public/InfoParser.o \
 				  Public/Poker.o \
 				  Public/Yond_drng.o \
 				  Public/Yond_json.o \
+				  Public/Yond_string.o \
 				  Public/Yond_md5.o 
 	  
 UtilityObjs 	= Utility/Yond_mutex.o \
@@ -57,13 +58,15 @@ GameServerObjs 	= GameSrv/AgentServerSession.o \
 				  GameSrv/GameFactory.o \
 				  GameSrv/GameMain.o \
 				  GameSrv/GameServer.o \
+				  GameSrv/GameTable.o \
 				  GameSrv/GameUser.o \
 				  GameSrv/GameUserManager.o \
 				  GameSrv/Handler_FromAgentServer.o \
 				  GameSrv/Handler_FromDBServer.o \
 				  GameSrv/PacketHandler.o \
 				  GameSrv/ServerSession.o \
-				  GameSrv/Json_LoginREQ.o
+				  GameSrv/Json_Login.o \
+				  GameSrv/Json_Discard.o
 
 #DBServerObjs 	= HyMysql/HyDatabase.o \
 #				  HyMysql/IDBCInterface.o \
@@ -104,7 +107,6 @@ BINDIR = bin
 
 all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer 
 #$(BINDIR)/DBServer 
-#$(BINDIR)/LoginServer
 
 $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServerObjs)
 	$(CC) -g $^ -o $@ -pthread
@@ -114,9 +116,6 @@ $(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerOb
 
 #$(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
 #	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread
-
-#$(BINDIR)/LoginServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(LoginServerObjs)
-#	$(CC) -g $^ -o $@ -pthread
 
 .SUFFIXES: .c .o .cpp
 .cpp.o:

@@ -6,43 +6,33 @@
 
 
 enum eGAME_PROTOCOL {
-	
+
 	StartGame_REQ 		= 2000,
 	StartGame_ANC,
-	StartGame_NAK,
-	
-	JoinRoom_REQ, 				// 加入房间请求：【玩家X】
-	JoinRoom_ANC, 				// 加入房间应答：【房间ID, 玩家{1,2,3}】
-	
-	JoinTable_REQ, 				// 加入桌子请求
-	JoinTable_ANC, 				// 加入桌子应答
-	
-	JoinGame_REQ, 				// 加入房加：【玩家X】
-	JoinGame_ANC, 				// 加入房加：【房间ID, 玩家{1,2,3}】
-	
+
+	// JoinRoom_REQ, 				// 加入房间请求：【玩家X】
+	// JoinRoom_BRD, 				// 加入房间应答：【房间ID, 玩家{1,2,3}】
+
+	// JoinTable_REQ, 				// 加入桌子请求
+	// JoinTable_BRD, 				// 加入桌子应答
+
 	InitCards_BRD, 				// 服务器给所有玩家发牌：【牌数、牌串】
-	
+
 	CallLandlord_REQ, 			// 叫地主
-	CallLandlord_ANC, 			// 
-	
-	GrabLandlord_REQ, 			// 抢地主 请求
-	GrabLandlord_ANC, 			// 抢地主 应答
-	GrabLandlord_BRD, 			// 抢地主 广播
-	
+	CallLandlord_BRD, 			//
+
 	ShowCards_REQ, 				// 明牌
-	ShowCards_ANC,
+	ShowCards_BRD,
 
 	Discards_REQ, 				// 玩家出牌：【牌数、牌值串】
-	Discards_ANC, 				// 出牌应答：0-不合格、1-合格
-	Discards_INVALID, 			// 无效出牌
-	
-	Pass_REQ, 					
-	Pass_ANC,	
-	
+	Discards_BRD, 				// 出牌应答：0-不合格、1-合格
+
+	Pass_REQ,
+	Pass_BRD,
+
 	MaxCards_BRD, 				// 单圈胜利：0-不合格、1-合格
 	WinPlayer_BRD, 				// 单局胜利：0-不合格、1-合格
-	
-	EndGame_SYN,
+	End_BRD,
 };
 
 #endif // _PROTOCOLGA_H_INCLUDED_

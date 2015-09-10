@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="LinuxCode" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/LinuxCode" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/LinuxCode" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="AgentSrv/AgentFactory.cpp" />
+		<Unit filename="AgentSrv/AgentFactory.h" />
+		<Unit filename="AgentSrv/AgentMain.cpp" />
+		<Unit filename="AgentSrv/AgentServer.cpp" />
+		<Unit filename="AgentSrv/AgentServer.h" />
+		<Unit filename="AgentSrv/GameServerSession.cpp" />
+		<Unit filename="AgentSrv/GameServerSession.h" />
+		<Unit filename="AgentSrv/Handler_FromGameServer.cpp" />
+		<Unit filename="AgentSrv/Handler_FromGameServer.h" />
+		<Unit filename="AgentSrv/PacketHandler.cpp" />
+		<Unit filename="AgentSrv/PacketHandler.h" />
+		<Unit filename="AgentSrv/RootID.cpp" />
+		<Unit filename="AgentSrv/RootID.h" />
+		<Unit filename="AgentSrv/RootidManager.cpp" />
+		<Unit filename="AgentSrv/RootidManager.h" />
+		<Unit filename="AgentSrv/ServerSession.cpp" />
+		<Unit filename="AgentSrv/ServerSession.h" />
+		<Unit filename="AgentSrv/TempServerSession.cpp" />
+		<Unit filename="AgentSrv/TempServerSession.h" />
+		<Unit filename="AgentSrv/UserSession.cpp" />
+		<Unit filename="AgentSrv/UserSession.h" />
+		<Unit filename="Common/CircuitQueue.h" />
+		<Unit filename="Common/Cnpoker.h" />
+		<Unit filename="Common/CommStruct.h" />
+		<Unit filename="Common/Common.h" />
+		<Unit filename="Common/Const.h" />
+		<Unit filename="Common/Define.h" />
+		<Unit filename="Common/PackageStruct.h" />
+		<Unit filename="Common/PackageStruct_Connect.h" />
+		<Unit filename="Common/PackageStruct_Game.h" />
+		<Unit filename="Common/PackageStruct_Login.h" />
+		<Unit filename="Common/Protocol.h" />
+		<Unit filename="Common/Protocol_Connect.h" />
+		<Unit filename="Common/Protocol_Game.h" />
+		<Unit filename="Common/Protocol_Login.h" />
+		<Unit filename="DBSrv/DBConnectDir.cpp" />
+		<Unit filename="DBSrv/DBConnectDir.h" />
+		<Unit filename="DBSrv/DBFactory.cpp" />
+		<Unit filename="DBSrv/DBFactory.h" />
+		<Unit filename="DBSrv/DBMain.cpp" />
+		<Unit filename="DBSrv/DBServer.cpp" />
+		<Unit filename="DBSrv/DBServer.h" />
+		<Unit filename="DBSrv/DBUser.cpp" />
+		<Unit filename="DBSrv/DBUser.h" />
+		<Unit filename="DBSrv/DBUserManager.cpp" />
+		<Unit filename="DBSrv/DBUserManager.h" />
+		<Unit filename="DBSrv/GameServerQuery.cpp" />
+		<Unit filename="DBSrv/GameServerQuery.h" />
+		<Unit filename="DBSrv/GameServerSession.cpp" />
+		<Unit filename="DBSrv/GameServerSession.h" />
+		<Unit filename="DBSrv/Handler_FromGameServer.cpp" />
+		<Unit filename="DBSrv/Handler_FromGameServer.h" />
+		<Unit filename="DBSrv/Handler_FromLoginServer.cpp" />
+		<Unit filename="DBSrv/Handler_FromLoginServer.h" />
+		<Unit filename="DBSrv/LoginServerQuery.cpp" />
+		<Unit filename="DBSrv/LoginServerQuery.h" />
+		<Unit filename="DBSrv/LoginServerSession.cpp" />
+		<Unit filename="DBSrv/LoginServerSession.h" />
+		<Unit filename="DBSrv/PacketHandler.cpp" />
+		<Unit filename="DBSrv/PacketHandler.h" />
+		<Unit filename="DBSrv/ServerSession.cpp" />
+		<Unit filename="DBSrv/ServerSession.h" />
+		<Unit filename="DBSrv/TempServerSession.cpp" />
+		<Unit filename="DBSrv/TempServerSession.h" />
+		<Unit filename="GameSrv/AgentServerSession.cpp" />
+		<Unit filename="GameSrv/AgentServerSession.h" />
+		<Unit filename="GameSrv/DBServerSession.cpp" />
+		<Unit filename="GameSrv/DBServerSession.h" />
+		<Unit filename="GameSrv/GameFactory.cpp" />
+		<Unit filename="GameSrv/GameFactory.h" />
+		<Unit filename="GameSrv/GameMain.cpp" />
+		<Unit filename="GameSrv/GameServer.cpp" />
+		<Unit filename="GameSrv/GameServer.h" />
+		<Unit filename="GameSrv/GameUser.cpp" />
+		<Unit filename="GameSrv/GameUser.h" />
+		<Unit filename="GameSrv/GameUserManager.cpp" />
+		<Unit filename="GameSrv/GameUserManager.h" />
+		<Unit filename="GameSrv/Handler_FromAgentServer.cpp" />
+		<Unit filename="GameSrv/Handler_FromAgentServer.h" />
+		<Unit filename="GameSrv/Handler_FromDBServer.cpp" />
+		<Unit filename="GameSrv/Handler_FromDBServer.h" />
+		<Unit filename="GameSrv/Json_LoginREQ.cpp" />
+		<Unit filename="GameSrv/Json_LoginREQ.h" />
+		<Unit filename="GameSrv/PacketHandler.cpp" />
+		<Unit filename="GameSrv/PacketHandler.h" />
+		<Unit filename="GameSrv/ServerSession.cpp" />
+		<Unit filename="GameSrv/ServerSession.h" />
+		<Unit filename="HyMysql/HyDatabase.cpp" />
+		<Unit filename="HyMysql/HyDatabase.h" />
+		<Unit filename="HyMysql/HyDatabaseDefine.h" />
+		<Unit filename="HyMysql/IDBCInterface.cpp" />
+		<Unit filename="HyMysql/IDBCInterface.h" />
+		<Unit filename="HyMysql/IMysql.cpp" />
+		<Unit filename="HyMysql/IMysql.h" />
+		<Unit filename="HyMysql/QueryExecuteProcessor.cpp" />
+		<Unit filename="HyMysql/QueryExecuteProcessor.h" />
+		<Unit filename="HyMysql/QueryFactoryDefine.h" />
+		<Unit filename="HyMysql/QueryResult.cpp" />
+		<Unit filename="HyMysql/QueryResult.h" />
+		<Unit filename="HyMysql/dbCommon.h" />
+		<Unit filename="Network/Acceptor.cpp" />
+		<Unit filename="Network/Acceptor.h" />
+		<Unit filename="Network/Connector.cpp" />
+		<Unit filename="Network/Connector.h" />
+		<Unit filename="Network/IOCPServer.cpp" />
+		<Unit filename="Network/IOCPServer.h" />
+		<Unit filename="Network/Network.h" />
+		<Unit filename="Network/NetworkObject.cpp" />
+		<Unit filename="Network/NetworkObject.h" />
+		<Unit filename="Network/RecvBuffer.h" />
+		<Unit filename="Network/SendBuffer.h" />
+		<Unit filename="Network/Session.cpp" />
+		<Unit filename="Network/Session.h" />
+		<Unit filename="Network/SessionList.cpp" />
+		<Unit filename="Network/SessionList.h" />
+		<Unit filename="Network/SessionPool.cpp" />
+		<Unit filename="Network/SessionPool.h" />
+		<Unit filename="Network/SocketOpt.cpp" />
+		<Unit filename="Network/SocketOpt.h" />
+		<Unit filename="Network/SyncHandler.cpp" />
+		<Unit filename="Network/SyncHandler.h" />
+		<Unit filename="Public/AgentInfo.cpp" />
+		<Unit filename="Public/AgentInfo.h" />
+		<Unit filename="Public/InfoParser.cpp" />
+		<Unit filename="Public/InfoParser.h" />
+		<Unit filename="Public/JsonParser.cpp" />
+		<Unit filename="Public/JsonParser.h" />
+		<Unit filename="Public/MsgProcess.cpp" />
+		<Unit filename="Public/MsgProcess.h" />
+		<Unit filename="Public/PlayerGoods.cpp" />
+		<Unit filename="Public/PlayerGoods.h" />
+		<Unit filename="Public/PlayerTasks.cpp" />
+		<Unit filename="Public/PlayerTasks.h" />
+		<Unit filename="Public/Poker.cpp" />
+		<Unit filename="Public/Poker.h" />
+		<Unit filename="Public/Public.h" />
+		<Unit filename="Public/Yond_drng.cpp" />
+		<Unit filename="Public/Yond_drng.h" />
+		<Unit filename="Public/Yond_json.cpp" />
+		<Unit filename="Public/Yond_json.h" />
+		<Unit filename="Public/Yond_md5.cpp" />
+		<Unit filename="Public/Yond_md5.h" />
+		<Unit filename="Utility/Double_List_T.h" />
+		<Unit filename="Utility/FunctionMap.hpp" />
+		<Unit filename="Utility/Linkedlist.h" />
+		<Unit filename="Utility/MemoryFactory.hpp" />
+		<Unit filename="Utility/ObjKeyGenerator.cpp" />
+		<Unit filename="Utility/ObjKeyGenerator.h" />
+		<Unit filename="Utility/PublicObject.cpp" />
+		<Unit filename="Utility/PublicObject.h" />
+		<Unit filename="Utility/Single_List_T.h" />
+		<Unit filename="Utility/Singleton.hpp" />
+		<Unit filename="Utility/SolarHashTable.h" />
+		<Unit filename="Utility/Utility.h" />
+		<Unit filename="Utility/Yond_ini.cpp" />
+		<Unit filename="Utility/Yond_ini.h" />
+		<Unit filename="Utility/Yond_log.cpp" />
+		<Unit filename="Utility/Yond_log.h" />
+		<Unit filename="Utility/Yond_mutex.cpp" />
+		<Unit filename="Utility/Yond_mutex.h" />
+		<Unit filename="Utility/Yond_thread.cpp" />
+		<Unit filename="Utility/Yond_thread.h" />
+		<Unit filename="Utility/Yond_thread_pool.cpp" />
+		<Unit filename="Utility/Yond_thread_pool.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

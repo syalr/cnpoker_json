@@ -4,15 +4,15 @@
 #include <Network.h>
 
 
-int main(int argc, char ** argv) 
+int main(int argc, char ** argv)
 {
 	g_AgentServer = new AgentServer;
 	assert(g_AgentServer);
-	
+
 	if( !g_AgentServer->Init() ) {
 		return 0;
 	}
-	
+
 	int nShutdown = 1;
 	while( nShutdown ) {
 		usleep(20);
@@ -26,7 +26,4 @@ int main(int argc, char ** argv)
 
 	return 0;
 }
-
-
-
 

@@ -11,13 +11,13 @@ class AgentServerSession : public ServerSession
 public:
 	AgentServerSession();
 	virtual ~AgentServerSession();
-	
+
 	eSERVER_TYPE    GetServerType() { return AGENT_SERVER; }
-	
+
 	virtual void    Init();
 	virtual void    Release();
 	virtual void    Update();
-	
+
 public:
     virtual void    OnConnect( BOOL bSuccess, DWORD dwSessionIndex );
 	virtual void	OnDisconnect( );

@@ -2,6 +2,13 @@
 #define _CNPOKER_H_INCLUDED_
 
 
+// Error Msg
+#define DE_TABLE_EMPTY  0xF0   // 桌子为空
+#define DE_SEAT_EMPTY   0xF1   // 坐位已满
+#define DE_SEAT_FULL    0xF1   // 坐位已满
+#define DE_PLAYING      0xF2   // 正在游戏
+
+
 // 出牌的类型
 enum ePK_TYPE
 {
@@ -17,12 +24,12 @@ enum ePK_TYPE
 	PH_42 	       ,		// 四带一对
 	PH_422 	       ,		// 四带两对
 	PH_MAX 	       ,		// 王炸
-	
-	
+
+
 	PH_C1 	= 200  , 		// 顺子
 	PH_C2 	       ,		// 连对
 	PH_C3 	       ,		// 飞机
-	PH_End 	= 1000 ,		// 无效	
+	PH_End 	= 1000 ,		// 无效
 };
 
 enum ePK_POWER

@@ -2,7 +2,6 @@
 #include "GameServer.h"
 #include "Handler_FromAgentServer.h"
 #include "Handler_FromDBServer.h"
-#include "Handler_FromGameServer.h"
 
 PacketHandler g_PacketHandler;
 
@@ -24,31 +23,26 @@ BOOL PacketHandler::RegisterHandler()
 	Register_AG();
 	Register_DG();
 	return TRUE;
-}	
+}
 
 void PacketHandler::Register_AG()
 {
 	AddHandler_AG( Login_Protocol, Login_REQ, Handler_FromAgentServer::OnLogin_REQ );
-	AddHandler_AG( Login_Protocol, Logout_REQ, Handler_FromAgentServer::OnLogout_REQ );	
-	
-	AddHandler_AG( Games_Protocol, StartGame_REQ, Handler_FromAgentServer::OnStartGame_REQ );	
+	AddHandler_AG( Login_Protocol, Logout_REQ, Handler_FromAgentServer::OnLogout_REQ );
+/*
+	AddHandler_AG( Games_Protocol, StartGame_REQ, Handler_FromAgentServer::OnStartGame_REQ );
 	AddHandler_AG( Games_Protocol, JoinRoom_REQ, Handler_FromAgentServer::OnJoinRoom_REQ );
 	AddHandler_AG( Games_Protocol, JoinTable_REQ, Handler_FromAgentServer::OnJoinTable_REQ );
 	AddHandler_AG( Games_Protocol, ShowCards_REQ, Handler_FromAgentServer::OnShowCards_REQ );
 	AddHandler_AG( Games_Protocol, Discards_REQ, Handler_FromAgentServer::OnDiscards_REQ );
-	AddHandler_AG( Games_Protocol, EndGame_SYN, Handler_FromAgentServer::OnEndGame_SYN );
-	
-	AddHandler_AG( Games_Protocol, InitCards_BRD, Handler_FromAgentServer::OnInitCards_BRD );
+*/
 }
 
 void PacketHandler::Register_DG()
 {
 	AddHandler_DG( Login_Protocol, Login_ANC, Handler_FromDBServer::OnLogin_ANC );
-	
 	AddHandler_DG( Login_Protocol, Login_NAK, Handler_FromDBServer::OnLogin_NAK );
-	
 	AddHandler_DG( Login_Protocol, Logout_ANC, Handler_FromDBServer::OnLogout_ANC );
-	
 }
 
 BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHandler)
@@ -56,40 +50,28 @@ BOOL PacketHandler::AddHandler_AG( WORD category, WORD protocol, fnHandler fnHan
 	FUNC_AG * pFuncInfo	= new FUNC_AG;
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
 	pFuncInfo->m_fnHandler		= fnHandler;
-	
-	//printf("category:%d,protocol:%d\n", category, protocol);	
-	//printf("m_dwFunctionKey:%d\n", pFuncInfo->m_dwFunctionKey);
-	
 	return m_pFuncMap_AG->Add( pFuncInfo );
 }
 
 BOOL PacketHandler::AddHandler_DG( WORD category, WORD protocol, fnHandler fnHandler)
 {
 	FUNC_DG * pFuncInfo	= new FUNC_DG;
-	
 	pFuncInfo->m_dwFunctionKey	= MAKELONG( category, protocol );
 	pFuncInfo->m_fnHandler		= fnHandler;
-	
 	return m_pFuncMap_DG->Add( pFuncInfo );
 }
 
 VOID PacketHandler::ParsePacket_AG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
 	assert(NULL != pMsg);
-	
 	FUNC_AG * pFuncInfo = (FUNC_AG *)m_pFuncMap_AG->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
-
-	//AddLogMsg(LOG_OUT, "ParsePacket_CA Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
 
 VOID PacketHandler::ParsePacket_DG( ServerSession * pSession, MSG_BASE * pMsg, WORD wSize )
 {
 	assert(NULL != pMsg);
-	
 	FUNC_DG * pFuncInfo = (FUNC_DG *)m_pFuncMap_DG->Find( MAKELONG( pMsg->m_byCategory, pMsg->m_byProtocol ) );
 	pFuncInfo->m_fnHandler( pSession, pMsg, wSize );
-
-	//AddLogMsg(LOG_OUT, "ParsePacket_DG Register Message:Category=%d, Protocol=%d\n", pMsg->m_byCategory, pMsg->m_byProtocol);
 }
 

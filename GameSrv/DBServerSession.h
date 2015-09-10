@@ -11,13 +11,13 @@ class DBServerSession : public ServerSession
 public:
 	DBServerSession();
 	virtual ~DBServerSession();
-		
+
 	eSERVER_TYPE    GetServerType() { return DB_SERVER; }
-	
+
 	virtual void    Init();
 	virtual void    Release();
 	virtual void    Update();
-	
+
 public:
     virtual void    OnConnect( BOOL bSuccess, DWORD dwSessionIndex );
 	virtual void	OnDisconnect( );

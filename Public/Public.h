@@ -20,6 +20,7 @@ struct SERVER_INFO
 #include <Utility.h>
 
 #include "Yond_md5.h"
+#include "Yond_string.h"
 #include "Yond_drng.h"
 
 #include "Poker.h"
