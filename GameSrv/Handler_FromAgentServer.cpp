@@ -1,5 +1,6 @@
 #include "Handler_FromAgentServer.h"
 #include "GameServer.h"
+#include "GameRoom.h"
 #include "Json_Login.h"
 #include "Json_Discard.h"
 
@@ -50,57 +51,48 @@ HANDLER_IMPL( JoinRoom_REQ )
 
 HANDLER_IMPL( JoinTable_REQ )
 {
-	MSG_JOINTABLE_REQ * recv = (MSG_JOINTABLE_REQ *) pMsg;
-	printf("[JoinTable_REQ userport = %d]\n", recv->m_wUserPort );
+	MSG_JOINTABLE_REQ * recvMsg = (MSG_JOINTABLE_REQ *) pMsg;
+	printf("[JoinTable_REQ] Port = %d]\n", recvMsg->m_wUserPort );
 
-
-}
-
-#if 0
-
-HANDLER_IMPL( StartGame_REQ )
-{
-	printf("StartGame_REQ\n");
-
-	MSG_BASE_FORWARD * pRecvMsg = (MSG_BASE_FORWARD *)pMsg;
-	printf(">>> User Port = %d\n", pRecvMsg->m_wUserPort );
-
-
-    // if ()
-    {
-
+    GameUser * pUser = g_pGameRoom.FindUser(recvMsg->m_wUserPort);
+    if (pUser != NULL) {
+        g_pGameRoom.AddWaiting( pUser );
+        return;
     }
-
 }
 
 // 叫地主
-HANDLER_IMPL( CallLandlord_REQ )
+HANDLER_IMPL( CallBank_REQ )
 {
-	printf("CallLandlord_REQ\n");
+	printf("[CallBank_REQ]\n");
 
-	MSG_BASE_FORWARD * pRecvMsg = (MSG_BASE_FORWARD *)pMsg;
-	printf(">>> User Port = %d\n", pRecvMsg->m_wUserPort );
+	MSG_CALLBANK_REQ * recvMsg = (MSG_CALLBANK_REQ *)pMsg;
+	printf("[CallBank_REQ] Port = %d\n", recvMsg->m_wUserPort );
 
-
-
+    GameUser * pUser = g_pGameRoom.FindUser(recvMsg->m_wUserPort);
+    if (pUser != NULL) {
+        pUser->CallBank();
+        return;
+    }
 }
 
 HANDLER_IMPL( ShowCards_REQ )
 {
-	printf("ShowCards_REQ\n");
+	printf("[ShowCards_REQ]\n");
 
-	MSG_SHOWCARDS_REQ * pRecvMsg = (MSG_SHOWCARDS_REQ *)pMsg;
-	DWORD dwUserID = pRecvMsg->m_dwUserID;
+	MSG_SHOWCARDS_REQ * recvMsg = (MSG_SHOWCARDS_REQ *)pMsg;
+	printf("[ShowCards_REQ] Port = %d\n", recvMsg->m_wUserPort );
 
-	GameUser * pUser = g_GameUserManager.Find(dwUserID);
-	if ( pUser == NULL ) {
-		printf("Can't find User %d\n", dwUserID);
-		return;
-	}
+	GameUser * pUser = g_pGameRoom.FindUser(recvMsg->m_wUserPort);
+    if (pUser != NULL) {
+        pUser->ShowCards();
+        return;
+    }
 
-	pUser->ShowCards();
 }
 
+
+#if 0
 HANDLER_IMPL( Discards_REQ )
 {
 	printf("Discards_REQ\n");
@@ -126,25 +118,4 @@ HANDLER_IMPL( Discards_REQ )
 	}
 
 }
-
-HANDLER_IMPL( Pass_REQ )
-{
-	printf("Pass_REQ\n");
-
-	MSG_PASS_REQ * pRecvMsg = ( MSG_PASS_REQ *) pMsg;
-	DWORD dwUserID = pRecvMsg->m_dwUserID;
-
-	GameUser * pUser = g_GameUserManager.Find(dwUserID);
-	if ( pUser == NULL ) {
-		printf("Can't find User %d\n", dwUserID);
-		return;
-	}
-
-	pUser->Pass(); // 要不起
-
-	MSG_PASS_BRD msg2;
-	msg2.m_dwUserID = dwUserID;
-	g_GameServer->SendToAgentServer( (BYTE *)&msg2, sizeof(msg2) );
-}
-
 #endif

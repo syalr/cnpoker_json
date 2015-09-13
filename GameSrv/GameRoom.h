@@ -34,11 +34,16 @@ public:
 
     GameUser * AllocUser();
 
-    int AddWaiting(GameUser *); // 活动用户
+    int AddWaiting(GameUser *);         // 等待用户
+
+    int RemoveWaiting(GameUser *);      // 移除等待用户
 
     int ReleaseTable(WORD _tableid);
 
+    GameUser * FindUser( WORD _userid);
 
+protected:
+    int GetTableAllUser(GameUser ** user, WORD wSize);
 
 protected:
 
@@ -51,5 +56,7 @@ protected:
     GameUserList m_pFreeUserList;
     GameUserList m_pWaitingUserList;
 };
+
+extern GameRoom g_pGameRoom;
 
 #endif

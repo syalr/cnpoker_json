@@ -38,9 +38,15 @@ public:
     void SetUserid ( UINT _userid) { m_uiUserid = _userid; }
     WORD GetUserid () const { return m_uiUserid; }
 
+    void CallBank();
+    void ShowCards(){}
+
 protected:
     friend class GameRoom;
     friend class GameTable;
+
+    BYTE m_byRemove;     // 已经退出
+    BYTE m_byShow;       // 是否已经显示牌
 
     UINT m_uiUserid;     // 用户ID
     WORD m_wUserKey;     // 用记Key

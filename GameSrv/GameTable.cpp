@@ -1,7 +1,7 @@
 #include "GameTable.h"
 #include "GameServer.h"
 
-UINT GameTable::m_maxCallBanks = 4;
+UINT GameTable::m_maxCallBanks = 0;
 
 GameTable::GameTable()
 {
@@ -25,19 +25,22 @@ int GameTable::JoinGame( GameUser * pUser )
         if ( m_bySatus[0] == eGT_EMPTY ) {
             m_pGameUser[0] = pUser;
             pUser->JoinGame(m_uiTableIndex, 0);
-            m_bySatus[0] = eGT_WAITING;
+            //m_bySatus[0] = eGT_WAITING;
+            m_bySatus[0] = eGT_STARTGAME;
             return 0;
         }
         if ( m_bySatus[1] == eGT_EMPTY ) {
             m_pGameUser[1] = pUser;
             pUser->JoinGame(m_uiTableIndex, 1);
-            m_bySatus[1] = eGT_WAITING;
+            //m_bySatus[1] = eGT_WAITING;
+            m_bySatus[1] = eGT_STARTGAME;
             return 1;
         }
         if ( m_bySatus[2] == eGT_EMPTY ) {
             m_pGameUser[2] = pUser;
             pUser->JoinGame(m_uiTableIndex, 2);
-            m_bySatus[2] = eGT_WAITING;
+            //m_bySatus[2] = eGT_WAITING;
+            m_bySatus[2] = eGT_STARTGAME;
             return 2;
         }
     }
@@ -139,21 +142,23 @@ int GameTable::Alloc()
 // 抢庄
 int GameTable::GetBank( BYTE _bySeat, BYTE _getBank )
 {
+    m_calledBanks ++;
     if ( _getBank == TRUE )
     {
-        m_calledBanks ++;
         if ( m_calledBanks == GameTable::m_maxCallBanks ) {
+            m_byBank = _bySeat;
             return TRUE;
         }
 
-            if ( m_bySatus[0] == eGT_STARTGAME ) {
-            if ( m_bySatus[1] == eGT_STARTGAME ) {
-                if ( m_bySatus[2] == eGT_STARTGAME ) {
+        int index = (_bySeat + 1) % 3;
+        if ( m_bySatus[index] == eGT_GIVEUP ) {
+
+            index = (index + 1) % 3;
+            if ( m_bySatus[index] == eGT_GIVEUP ) {
+                    m_byBank = _bySeat;
                     return TRUE;
-                }
             }
         }
-
         m_bySatus [_bySeat] = eGT_GETBANK;
     }
     return TRUE;
@@ -163,6 +168,7 @@ int GameTable::Discards(BYTE * pCards, unsigned int uiSize, BYTE _bySeat)
 {
     printf("[GameTable::Discards] : Table Size = %d\n", uiSize);
 
+#if 0
     // == 不是第一次出牌；
     if (m_byDiscardCurr != -1) {
 
@@ -217,6 +223,8 @@ int GameTable::Discards(BYTE * pCards, unsigned int uiSize, BYTE _bySeat)
 		m_byDiscardLast = _bySeat;
 	}
 
+	++m_wDiscardCount;
+#endif
 	return TRUE;
 }
 
@@ -313,8 +321,9 @@ int GameTable::ClearGame()
         m_bySatus[2] = eGT_WAITING;
     }
 
-    m_calledBanks =  0;
-    m_dwLandlord  = -1;
+    m_calledBanks   =  0;
+    m_byBank        = -1;
+    m_wDiscardCount =  0;
 }
 
 

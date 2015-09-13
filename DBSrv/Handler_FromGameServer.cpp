@@ -1,7 +1,5 @@
-#include "DBUser.h"
 #include "DBFactory.h"
-#include "DBUserManager.h"
-#include "GameServerQuery.h"
+#include "GameQuery.h"
 #include "Handler_FromGameServer.h"
 
 Handler_FromGameServer::Handler_FromGameServer()
@@ -15,9 +13,11 @@ Handler_FromGameServer::~Handler_FromGameServer()
 }
 
 
-HANDLER_IMPL( GD_Login_REQ )
+HANDLER_IMPL( Login_REQ )
 {
 	printf("Step2: <3> GD_Login_REQ\n");
+
+#if 0
 	MSG_GD_LOGIN_REQ * pRecvMsg = (MSG_GD_LOGIN_REQ *)pMsg;
 
 	GameServerSession * pSession = (GameServerSession *) pServerSession;
@@ -67,8 +67,11 @@ HANDLER_IMPL( GD_Login_REQ )
 			pQuery = NULL;
 		}
 	}
+
+#endif
 }
 
+#if 0
 HANDLER_IMPL( GD_Logout_REQ )
 {
 	MSG_GD_LOGOUT_REQ * pLogout = (MSG_GD_LOGOUT_REQ *)pMsg;
@@ -118,3 +121,5 @@ HANDLER_IMPL( GD_Update_CMD )
 		pServerSession->Send( (BYTE*)&pANC, sizeof(pANC) );
 	}
 }
+
+#endif

@@ -18,7 +18,6 @@ INC = -I $(HOME)/Utility \
 PublicObjs 		= Public/InfoParser.o \
 				  Public/JsonParser.o \
 				  Public/MsgProcess.o \
-				  Public/Poker.o \
 				  Public/Yond_drng.o \
 				  Public/Yond_json.o \
 				  Public/Yond_string.o \
@@ -58,9 +57,12 @@ GameServerObjs 	= GameSrv/AgentServerSession.o \
 				  GameSrv/GameFactory.o \
 				  GameSrv/GameMain.o \
 				  GameSrv/GameServer.o \
-				  GameSrv/GameTable.o \
+				  GameSrv/GamePoker.o \
 				  GameSrv/GameUser.o \
-				  GameSrv/GameUserManager.o \
+				  GameSrv/GameUserList.o \
+				  GameSrv/GameTable.o \
+				  GameSrv/GameTableList.o \
+				  GameSrv/GameRoom.o \
 				  GameSrv/Handler_FromAgentServer.o \
 				  GameSrv/Handler_FromDBServer.o \
 				  GameSrv/PacketHandler.o \
@@ -68,26 +70,22 @@ GameServerObjs 	= GameSrv/AgentServerSession.o \
 				  GameSrv/Json_Login.o \
 				  GameSrv/Json_Discard.o
 
-#DBServerObjs 	= HyMysql/HyDatabase.o \
-#				  HyMysql/IDBCInterface.o \
-#				  HyMysql/IMysql.o \
-#				  HyMysql/QueryExecuteProcessor.o \
-#				  HyMysql/QueryResult.o \
-#				  DBSrv/DBConnectDir.o \
-#				  DBSrv/DBFactory.o \
-#				  DBSrv/DBMain.o \
-#				  DBSrv/DBServer.o \
-#				  DBSrv/DBUser.o \
-#				  DBSrv/DBUserManager.o \
-#				  DBSrv/GameServerQuery.o \
-#				  DBSrv/GameServerSession.o \
-#				  DBSrv/Handler_FromGameServer.o \
-#				  DBSrv/Handler_FromLoginServer.o \
-#				  DBSrv/LoginServerQuery.o \
-#				  DBSrv/LoginServerSession.o \
-#				  DBSrv/PacketHandler.o \
-#				  DBSrv/ServerSession.o \
-#				  DBSrv/TempServerSession.o
+DBServerObjs 	= HyMysql/HyDatabase.o \
+				  HyMysql/IDBCInterface.o \
+				  HyMysql/IMysql.o \
+				  HyMysql/QueryExecuteProcessor.o \
+				  HyMysql/QueryResult.o \
+				  DBSrv/DBConnectDir.o \
+				  DBSrv/DBFactory.o \
+				  DBSrv/DBMain.o \
+				  DBSrv/DBServer.o \
+				  DBSrv/GameQuery.o \
+				  DBSrv/GameServerSession.o \
+				  DBSrv/Handler_FromGameServer.o \
+				  DBSrv/LoginQuery.o \
+				  DBSrv/PacketHandler.o \
+				  DBSrv/ServerSession.o \
+				  DBSrv/TempServerSession.o
 
 #LoginServerObjs = LoginSrv/ServerSession.o \
 #				  LoginSrv/TempServerSession.o \
@@ -105,7 +103,7 @@ GameServerObjs 	= GameSrv/AgentServerSession.o \
 				  
 BINDIR = bin
 
-all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer 
+all: checkbin $(BINDIR)/AgentServer $(BINDIR)/GameServer $(BINDIR)/DBServer
 #$(BINDIR)/DBServer 
 
 $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServerObjs)
@@ -114,8 +112,8 @@ $(BINDIR)/AgentServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(AgentServer
 $(BINDIR)/GameServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(GameServerObjs)
 	$(CC) -g $^ -o $@ -pthread
 
-#$(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
-#	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread
+$(BINDIR)/DBServer: $(UtilityObjs) $(PublicObjs) $(NetworkObjs) $(DBServerObjs)
+	$(CC) -g $(MYSQLLIB) $^ -o $@ -pthread
 
 .SUFFIXES: .c .o .cpp
 .cpp.o:
@@ -142,7 +140,7 @@ cleanAll:
 	rm -f DBSrv/*.o
 	rm -f $(BINDIR)/AgentServer
 	rm -f $(BINDIR)/GameServer
-#	rm -f $(BINDIR)/DBServer	
+	rm -f $(BINDIR)/DBServer	
 #	rm -f $(BINDIR)/LoginServer
 	
 cleanGame:
@@ -155,7 +153,7 @@ cleanGame:
 #	rm -f LoginSrv/*.o
 #	rm -f $(BINDIR)/LoginServer
 
-#cleanDB:
-#	rm -f HyMysql/*.o
-#	rm -f DBSrv/*.o
-#	rm -f $(BINDIR)/DBServer	
+cleanDB:
+	rm -f HyMysql/*.o
+	rm -f DBSrv/*.o
+	rm -f $(BINDIR)/DBServer	

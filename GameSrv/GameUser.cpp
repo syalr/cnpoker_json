@@ -19,10 +19,15 @@ int GameUser::Clear()
 
 int GameUser::JoinGame(WORD _table, BYTE _seat)
 {
-    m_wTable  = _table;
-    m_bySeat  = _seat;
+    m_byRemove  = FALSE;
+    m_wTable    = _table;
+    m_bySeat    = _seat;
 }
 
+void GameUser::CallBank()
+{
+
+}
 
 int GameUser::FigureOutDiscards(BYTE * pCards, unsigned int uiSize)
 {
@@ -42,12 +47,14 @@ int GameUser::FigureOutDiscards(BYTE * pCards, unsigned int uiSize)
 		}
 	}
 
-    m_byCCount = uiSize;
+    m_byCCount = m_byCCount - uiSize;
+
 	return TRUE;
 }
 
 int GameUser::SetCards(BYTE *poker, WORD wSize)
 {
+    m_byCCount = 0;
     if ( (poker!=NULL) && (wSize<CNPOKER_CARD_LEN_1) )
     {
         memset( m_szCards, eGU_EMPTY, sizeof(m_szCards) );

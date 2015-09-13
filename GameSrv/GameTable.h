@@ -37,9 +37,9 @@ public:
     int QuitGame( GameUser * pUser );
     int IsEmpty();
 
-	int StartGame();    // 判断是否需要洗牌
-    int Shuffle();  // 洗牌
-    int Alloc();    // 分牌
+	int StartGame(); // 判断是否需要洗牌
+    int Shuffle();   // 洗牌
+    int Alloc();     // 分牌
     int GetBank( BYTE _bySeat, BYTE _getBank = TRUE);  // 抢庄
 
     int Discards(BYTE * pCards, unsigned int uiSize, BYTE _bySeat);  // 出牌
@@ -63,25 +63,22 @@ protected:
     friend class GameRoom;
 
     UINT m_uiTableIndex;
+    BYTE m_byAllCards[CNPOKER_CARD_LEN_1];
 
-	BYTE m_byAllCards[CNPOKER_CARD_LEN_1];
-    BYTE m_byDiscards[CNPOKER_CARD_LEN_1];
+	WORD m_wDiscardCount;                       // 出牌次数
+    BYTE m_byDiscards[CNPOKER_CARD_LEN_1];      //
 
     static UINT m_maxCallBanks; // 叫地主次数
     UINT m_calledBanks;         // 已叫地主次数
 
-	UINT m_dwLandlord;          // 地主
-	BYTE m_byWoned;             // 地主赢为 0; 地主输为 1;
+    BYTE m_byDiscardCurr;
+    BYTE m_byDiscardLast;
+
+	BYTE m_byBank;              // 地主
 	BYTE m_byExtraCards[3];     // 地主主额外的三张牌
 
-	BYTE m_byDiscardCurr;       // 现在出牌的坐位
-	BYTE m_byDiscardLast;       // 最后出牌的坐位
     BYTE m_bySatus[3];          // 0, 1
 	GameUser * m_pGameUser[3];  // 参加的游戏用户
-
-    ePK_TYPE m_ePkType;     // 打出牌的类型
-	BYTE m_byCmpValue;      // 比较的值
-	BYTE m_byCmpCount;      // 比较的值 的 个数
 };
 
 
