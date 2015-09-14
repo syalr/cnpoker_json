@@ -12,11 +12,11 @@ struct MSG_LOGIN_REQ : public MSG_BASE_FORWARD
 {
 	DWORD 	m_dwUserID;
 	BYTE 	m_bySshKey[CODE_KEY_LEN+1];
-	
-	MSG_LOGIN_REQ() 
+
+	MSG_LOGIN_REQ()
 	{
 		memset( this, 0, sizeof(MSG_LOGIN_REQ) );
-		
+
 		m_byCategory = Login_Protocol;
 		m_byProtocol = Login_REQ;
 	}
@@ -25,11 +25,17 @@ struct MSG_LOGIN_REQ : public MSG_BASE_FORWARD
 // Login Anc
 struct MSG_LOGIN_ANC : public MSG_BASE_FORWARD
 {
-	PlayerInfo m_playerInfo;
-	MSG_LOGIN_ANC() 
+	// PlayerInfo m_playerInfo;
+
+	unsigned int m_uiPoints; 		// 分数
+	unsigned int m_uiWons; 		    // 失败次数
+	unsigned int m_uiFaileds; 		// 赢的次数
+	unsigned int m_uiAways; 		// 逃跑次数
+
+	MSG_LOGIN_ANC()
 	{
 		memset( this, 0, sizeof(MSG_LOGIN_ANC) );
-		
+
 		m_byCategory = Login_Protocol;
 		m_byProtocol = Login_ANC;
 	}
@@ -38,11 +44,11 @@ struct MSG_LOGIN_ANC : public MSG_BASE_FORWARD
 // Login Nak
 struct MSG_LOGIN_NAK: public MSG_BASE_FORWARD
 {
-	WORD errorno;
-	MSG_LOGIN_NAK() 
+	WORD error;
+	MSG_LOGIN_NAK()
 	{
 		memset( this, 0, sizeof(MSG_LOGIN_NAK) );
-		
+
 		m_byCategory = Login_Protocol;
 		m_byProtocol = Login_NAK;
 	}
