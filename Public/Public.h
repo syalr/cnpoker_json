@@ -23,17 +23,8 @@ struct SERVER_INFO
 #include "Yond_string.h"
 #include "Yond_drng.h"
 
-#include "Poker.h"
-
 #include "InfoParser.h"
 #include "JsonParser.h"
-
-//#include "AgentInfo.h"
-
-//#include "MsgProcess.h"
-
-//#include "PlayerGoods.h"
-//#include "PlayerTasks.h"
 
 
 #endif // _PUBLIC_H_INCLUDED_
