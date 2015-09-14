@@ -1,3 +1,4 @@
+#include <Network.h>
 #include "HyDatabase.h"
 
 #pragma warning (push)
@@ -27,7 +28,7 @@ HyDatabase::HyDatabase(void)
 		m_wQueryProcessorNum ( 0 ),
 		m_bEndProcess( FALSE ),
 		m_dwDummy (	0 )
-		
+
 {
 }
 
@@ -46,7 +47,6 @@ VOID HyDatabase::Release()
 	m_lockWakeup.Unlock();
 
 	SAFE_DELETE( m_pThreadPool );
-
 	SAFE_DELETE( m_pQueryList );
 	SAFE_DELETE( m_pQueryResultPushList );
 	SAFE_DELETE( m_pQueryResultPopList );
@@ -139,7 +139,7 @@ BOOL HyDatabase::Initialize( HyDatabaseDesc & desc )
 		if( !m_ppDBCInstance[i]->Init( desc.pszDatabaseIP, desc.pszDatabaseName, desc.pszUserName, desc.pszUserPassword, m_fnErrorMessage ) )	return FALSE;
 		if( !m_ppDBCInstance[i]->Connect() )																									return FALSE;
 	}
-	
+
 	m_pQueryCS				= new Yond_mutex;
 	m_pQueryResultCS		= new Yond_mutex;
 
@@ -185,23 +185,23 @@ BOOL HyDatabase::DBQuery( QueryResult * pQuery )
 }
 
 //////////////////////////////////////////////////////////////////////////
-/// 
+///
 //////////////////////////////////////////////////////////////////////////
 VOID HyDatabase::Update()
 {
 	ASSERT( this );
 
-	/// DB 
+	/// DB
 	if( !m_pQueryResultPushList || (m_pQueryResultPushList && m_pQueryResultPushList->GetCount() == 0 ))
 		return ;
-	
+
 	m_pQueryResultCS->Lock();
 
 	SwitchQueryResultList();
 
 	m_pQueryResultCS->Unlock();
 
-	
+
 	/*
 	QUERYRESULT_ITER	it;
 	for( it = m_pQueryResultPopList->begin() ; it != m_pQueryResultPopList->end() ; ++it )
