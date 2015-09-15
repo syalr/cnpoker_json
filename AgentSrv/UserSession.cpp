@@ -84,13 +84,14 @@ void UserSession::Release()
 void UserSession::OnAccept( DWORD dwNetworkIndex )
 {
 	WORD PortKey = this->GetPort();
-	if ( PortKey != 0 )
+	if ( PortKey == 0 )
 	{
-		this->SetUserKey(PortKey);
-		g_AgentServer->SetUserSession(PortKey, this);
-		AgentFactory::Instance()->FreeUserSession( this );
-		return;
-	}
+	    return;
+    }
+
+    this->SetUserKey(PortKey);
+    g_AgentServer->SetUserSession(PortKey, this);
+    AgentFactory::Instance()->FreeUserSession( this );
 
 	char buff[1024]  =  {0};
 	char format[256] = 	"{\"potocol\":\"%d\","
