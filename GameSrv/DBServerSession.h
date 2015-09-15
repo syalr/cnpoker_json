@@ -12,7 +12,7 @@ public:
 	DBServerSession();
 	virtual ~DBServerSession();
 
-	eSERVER_TYPE    GetServerType() { return DB_SERVER; }
+	eSERVER_TYPE    GetServerType() { return GAME_SERVER; }
 
 	virtual void    Init();
 	virtual void    Release();

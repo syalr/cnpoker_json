@@ -64,7 +64,7 @@ void DBServer::StartServerSideListen()
 {
 	if( !m_pIOCPServer->IsListening( SERVER_SYNCHANDLER) ) {
 
-		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "127.0.0.1", 7300) ) 	// DB Port 7300
+		if ( !m_pIOCPServer->StartListen(SERVER_SYNCHANDLER, "127.0.0.1", 8900) ) 	// DB Port 7300
 		{
 			return;
 		}

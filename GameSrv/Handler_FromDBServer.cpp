@@ -14,6 +14,7 @@ Handler_FromDBServer::~Handler_FromDBServer()
 
 HANDLER_IMPL( Login_ANC )
 {
+    //MSG_LOGIN_ANC
 	printf(">>> Login_ANC.\n");
 #if 0
 	MSG_GD_LOGIN_ANC * pRecvMsg = (MSG_GD_LOGIN_ANC *)pMsg;

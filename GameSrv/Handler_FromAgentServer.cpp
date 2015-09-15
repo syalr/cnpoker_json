@@ -18,11 +18,11 @@ HANDLER_IMPL( Login_REQ )
 {
 	printf("Login_REQ\n");
 
-	MSG_BASE_FORWARD * pRecvMsg = (MSG_BASE_FORWARD *)pMsg;
-	printf(">>> User Port = %d\n", pRecvMsg->m_wUserPort );
+	MSG_BASE_FORWARD * recvMsg = (MSG_BASE_FORWARD *)pMsg;
+	printf(">>> User Port = %d\n", recvMsg->m_wUserPort );
 
 	char json_msgs[1024] = {0};
-	memcpy( json_msgs, ( ( BYTE * )pMsg) + sizeof( pRecvMsg ), wSize - sizeof( pRecvMsg ) );
+	memcpy( json_msgs, ( ( BYTE * )pMsg) + sizeof( recvMsg ), wSize - sizeof( recvMsg ) );
 
 	Json_Login_REQ js_login;
 	int nRet = js_login.ParseJson( (char * ) json_msgs );
@@ -33,7 +33,8 @@ HANDLER_IMPL( Login_REQ )
 
 	MSG_LOGIN_REQ sendDB;
 	if ( js_login.GetMsg( &sendDB ) != NULL ) {
-		sendDB.m_wUserPort = pRecvMsg->m_wUserPort;
+        //sendDB.m_dwUserID = recvMsg->m_dwUserID
+		sendDB.m_wUserPort = recvMsg->m_wUserPort;
 		g_GameServer->SendToDBServer( (BYTE*)&sendDB, sizeof( sendDB ) );
 	}
 }
@@ -41,6 +42,8 @@ HANDLER_IMPL( Login_REQ )
 HANDLER_IMPL( Logout_REQ )
 {
 	printf("Logout_REQ\n");
+
+	g_GameServer->SendToDBServer( (BYTE*) pMsg, wSize );
 }
 
 

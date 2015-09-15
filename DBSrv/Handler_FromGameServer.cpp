@@ -1,4 +1,5 @@
 #include "DBFactory.h"
+#include "LoginQuery.h"
 #include "GameQuery.h"
 #include "Handler_FromGameServer.h"
 
@@ -12,63 +13,82 @@ Handler_FromGameServer::~Handler_FromGameServer()
 
 }
 
-
 HANDLER_IMPL( Login_REQ )
 {
 	printf("Step2: <3> GD_Login_REQ\n");
 
-#if 0
-	MSG_GD_LOGIN_REQ * pRecvMsg = (MSG_GD_LOGIN_REQ *)pMsg;
+	MSG_LOGIN_REQ * recvMsg = (MSG_LOGIN_REQ *)pMsg;
 
-	GameServerSession * pSession = (GameServerSession *) pServerSession;
-	DBUser * pUser = DBFactory::Instance()->AllocDBUser(); // 分配 DBUser
-	if ( pUser != NULL ) {
-		pUser->SetHashKey( pRecvMsg->m_dwParameter ); // User ID
-		pUser->SetRootID( pRecvMsg->m_uiRootID );
-		pSession->AddUser( pUser ); // GameServerSession 对 DBUser 进行管理
+	TCHAR szQueryBuff[1024] = {0};
+	snprintf( szQueryBuff, sizeof(szQueryBuff),
+          " call p_Login(%d, \'%s\');",
+          recvMsg->m_dwUserID,
+          recvMsg->m_bySshKey );
 
-		TCHAR szQueryBuff[1024];
-		snprintf(szQueryBuff, sizeof(szQueryBuff), "call g_GamePack_Query(%d)", pRecvMsg->m_uiRootID);
-		Query_GamePackage_select * pQuery = Query_GamePackage_select::ALLOC(); // Query_GamePackage_update
+    Query_Login * pQuery = Query_Login::ALLOC();
+    if ( NULL != pQuery )
+    {
+        pQuery->SetQuery( szQueryBuff );
+		Obj_db_passport.QueryDirect( pQuery );
 
-		if (NULL != pQuery)
+        int nRet = pQuery->vctRes[0].m_iError;
+		if ( nRet == 0 )
 		{
-			pQuery->SetQuery( szQueryBuff );
-			pQuery->pParam[0].m_uiRootID = pRecvMsg->m_uiRootID;
-			Obj_db_passport.QueryDirect( pQuery );
+            printf ( "UserID = %d, Port = %d, IP = %s \n",
+                    pQuery->vctRes[0].m_uiStatus,
+					pQuery->vctRes[0].m_uiServerID,
+					pQuery->vctRes[0].m_uiGameType );
 
-			int iSize = pQuery->vctRes.size();
-			if (iSize == 1) {
-				// 返回应答消息给 Game
-				MSG_GD_LOGIN_ANC pANC;
-				pANC.m_dwParameter = pRecvMsg->m_dwParameter;
+            memset(szQueryBuff, 0x0, sizeof(szQueryBuff) );
+            snprintf( szQueryBuff, sizeof(szQueryBuff),
+                    " call p_GamePacket(%d, %d );",
+                    pQuery->vctRes[0].m_uiServerID,
+                    pQuery->vctRes[0].m_uiGameType );
 
-				pANC.m_uiRootID 	= pRecvMsg->m_uiRootID;
-				pANC.m_uiScore 		= pQuery->vctRes[0].m_uiScore;
-				pANC.m_uiFaileds	= pQuery->vctRes[0].m_uiFaileds;
-				pANC.m_uiWons		= pQuery->vctRes[0].m_uiWons;
-				pANC.m_uiEscape 	= pQuery->vctRes[0].m_uiEscape;
-				pServerSession->Send( (BYTE*)&pANC, sizeof(pANC) );
+            Query_GamePacket_select *pGameQuery = Query_GamePacket_select::ALLOC();
+            if ( NULL != pGameQuery )
+            {
+                pGameQuery->SetQuery( szQueryBuff );
+                Obj_db_passport.QueryDirect( pGameQuery );
 
-				// 同时更新 DBUser 里的 游戏信息
-				pUser->GetGameInfo().m_uiRootID 	= pANC.m_uiRootID ;
-				pUser->GetGameInfo().m_uiScore 		= pANC.m_uiScore;
-				pUser->GetGameInfo().m_uiFaileds 	= pANC.m_uiFaileds;
-				pUser->GetGameInfo().m_uiWons 		= pANC.m_uiWons;
-				pUser->GetGameInfo().m_uiEscape 	= pANC.m_uiEscape;
-			}
-			else {
-				printf("Error: Get Game User info fail\n");
-				// 发送错误消息
-				// MSG_
-			}
+                nRet = pGameQuery->vctRes[0].m_iError;
+                if ( nRet == 0 )
+                {
+                    printf ( "UserID = %d, Port = %d, IP = %s \n",
+                            pGameQuery->vctRes[0].m_uiPoints,
+                            pGameQuery->vctRes[0].m_uiWons,
+                            pGameQuery->vctRes[0].m_uiFaileds,
+                            pGameQuery->vctRes[0].m_uiAways );
 
-			Query_GamePackage_select::FREE( pQuery );
-			pQuery = NULL;
+                    MSG_LOGIN_ANC msg1;
+                    msg1.m_dwUserID  = msg1.m_dwUserID;
+                    msg1.m_wUserPort = recvMsg->m_wUserPort;
+                    msg1.m_uiPoints  = pGameQuery->vctRes[0].m_uiPoints;
+                    msg1.m_uiWons    = pGameQuery->vctRes[0].m_uiWons;
+                    msg1.m_uiFaileds = pGameQuery->vctRes[0].m_uiFaileds;
+                    msg1.m_uiAways   = pGameQuery->vctRes[0].m_uiAways;
+                    pServerSession->Send( (BYTE*)&msg1, sizeof(msg1) );
+                }
+                else
+                {
+                    MSG_LOGIN_NAK msg2;
+                    msg2.m_wUserPort  = recvMsg->m_wUserPort;
+                    printf ( "Handler_FromGameServer::Login_REQ m_wUserPort = %d \n", recvMsg->m_wUserPort );
+                    msg2.error = nRet;
+                    pServerSession->Send( (BYTE*)&msg2, sizeof(msg2) );
+                }
+            }
 		}
-	}
+        else
+        {
+            MSG_LOGIN_NAK msg2;
+			msg2.m_wUserPort  = recvMsg->m_wUserPort;
+			printf ( "Handler_FromGameServer::Login_REQ m_wUserPort = %d \n", recvMsg->m_wUserPort );
+			msg2.error = nRet;
+			pServerSession->Send( (BYTE*)&msg2, sizeof(msg2) );
+        }
+    }
 
-#endif
 }
 
 #if 0

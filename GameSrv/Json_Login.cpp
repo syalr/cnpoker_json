@@ -50,13 +50,6 @@ int Json_Login_REQ::ParseJson( const char * pInput )
 		}
 	}
 
-	//// game id
-	//cJSON * gameid = cJSON_GetObjectItem( root, "gameid" );
-	//if ( gameid ) {
-	//	dwStatus |= eGAMEID;
-	//	msg.m_dwGameID = gameid->valueint;
-	//}
-
 	if ( root ) {
 		cJSON_Delete( root );
 	}
@@ -81,3 +74,50 @@ MSG_LOGIN_REQ * Json_Login_REQ::GetMsg(MSG_LOGIN_REQ * pMsg)
 	return NULL;
 }
 
+
+
+/*
+ *  应答
+ */
+Json_Login_ANC::Json_Login_ANC()
+{
+}
+
+
+Json_Login_ANC::~Json_Login_ANC()
+{
+
+}
+
+void Json_Login_ANC::SetMsg(MSG_LOGIN_ANC * pMsg)
+{
+	if ( pMsg != NULL ) {
+		memcpy( &msg, pMsg, sizeof(msg) );
+	}
+}
+
+WORD Json_Login_ANC::GetJson(char * szJson, WORD wSize )
+{
+	char buff[1024]  = {0};
+	char format[256] = 	"{\"potocol\":\"%d\","
+                        "\"data\":{"
+                        "\"userid\":\"%d\","
+						"\"point\":\"%d\","
+						"\"wons\":\"%d\","
+						"\"faileds\":\"%d\","
+						"\"aways\":\"%d\"}}";
+
+	sprintf( buff, format,
+         msg.m_dwProtocol,
+         msg.m_dwUserID,
+         msg.m_uiPoints,
+         msg.m_uiWons,
+         msg.m_uiFaileds,
+         msg.m_uiAways);
+
+	int len = strlen(buff);
+	if ( len < wSize ) {
+		memcpy(szJson, buff, len);
+	}
+	return len;
+}

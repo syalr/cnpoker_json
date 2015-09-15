@@ -5,22 +5,23 @@
 
 #pragma pack(push,1)
 
-class Query_PreLogin : public QueryResult
+class Query_Login : public QueryResult
 {
-	_DECLARE_QUERY_POOL( Query_PreLogin );
+	_DECLARE_QUERY_POOL( Query_Login );
 
 public:
 
 	enum
 	{
-		RESULT_COL_NUM = 4,
-		PARAM_COL_NUL = 6,
+		RESULT_COL_NUM = 2,
+		PARAM_COL_NUL  = 4,
 	};
 
 	struct sRESULT {
-		int 		m_nErrCode;
-		unsigned int m_uiUserID;
-		unsigned int m_uiPort;
+                 int m_iError;
+		unsigned int m_uiStatus;
+		unsigned int m_uiServerID;
+		unsigned int m_uiGameType;
 		char m_szIP[16];
 
 		sRESULT()
@@ -44,28 +45,20 @@ public:
 	void dealData() { vctRes.pop_back(); }
 
 	_BEGIN_BINDING_DATA( sRESULT, vctRes, uLength, 1, RESULT_COL_NUM)
-		_BINDING_COLUMN(0, m_nErrCode)
-		_BINDING_COLUMN(1, m_uiUserID)
-		_BINDING_COLUMN(2, m_uiPort)
-		_BINDING_COLUMN(3, m_szIP)
+        _BINDING_COLUMN(0, m_iError)
+		_BINDING_COLUMN(1, m_uiStatus)
+		_BINDING_COLUMN(2, m_uiServerID)
+		_BINDING_COLUMN(3, m_uiGameType)
 	_END_BINDING_DATA()
 
 	struct tag_LOGIN {
-		BYTE m_byUsername[32];
-		BYTE m_byPassword[32];
-		BYTE m_byAsshKey[33];
-		BYTE m_byUsshKey[33];
-		int  m_nGameid;
-		int  m_nLoginType;
+		unsigned int m_nUserID;
+		BYTE m_byPreSSHKey[33];
 	} pParam[1];
 
 	_BEGIN_PARAM_DATA(tag_LOGIN, pParam, PARAM_COL_NUL)
-		_BINDING_PARAM_PTR(0, m_byUsername,  SQL_PARAM_INPUT)
-		_BINDING_PARAM_PTR(1, m_byPassword,  SQL_PARAM_INPUT)
-		_BINDING_PARAM_PTR(2, m_byAsshKey,  SQL_PARAM_INPUT)
-		_BINDING_PARAM_PTR(3, m_byUsshKey,  SQL_PARAM_INPUT)
-		_BINDING_PARAM_PTR(4, m_nGameid,  SQL_PARAM_INPUT)
-		_BINDING_PARAM_PTR(5, m_nLoginType,  SQL_PARAM_INPUT)
+		_BINDING_PARAM(0, m_nUserID,  SQL_PARAM_INPUT)
+		_BINDING_PARAM_PTR(1, m_byPreSSHKey,  SQL_PARAM_INPUT)
 	_END_PARAM_DATA()
 };
 

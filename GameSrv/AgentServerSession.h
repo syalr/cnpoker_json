@@ -12,7 +12,7 @@ public:
 	AgentServerSession();
 	virtual ~AgentServerSession();
 
-	eSERVER_TYPE    GetServerType() { return AGENT_SERVER; }
+	eSERVER_TYPE    GetServerType() { return GAME_SERVER; }
 
 	virtual void    Init();
 	virtual void    Release();
