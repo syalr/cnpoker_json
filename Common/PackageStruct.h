@@ -18,8 +18,13 @@ struct MSG_BASE
 		m_byProtocol = wCMDID;
 	}
 
-	WORD	m_byCategory;
-	WORD	m_byProtocol;
+	union{
+        DWORD m_dwProtocol;
+        struct {
+            WORD	m_byCategory;
+            WORD	m_byProtocol;
+        };
+	};
 };
 
 
